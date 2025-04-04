@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="50" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M20 10H40C45.5228 10 50 14.4772 50 20V30C50 35.5228 45.5228 40 40 40H20C14.4772 40 10 35.5228 10 30V20C10 14.4772 14.4772 10 20 10Z" fill="#6b456c"/>
+  <path d="M60 15H180C185.523 15 190 19.4772 190 25V25C190 30.5228 185.523 35 180 35H60C54.4772 35 50 30.5228 50 25V25C50 19.4772 54.4772 15 60 15Z" fill="#6b456c" fill-opacity="0.7"/>
+  <text x="15" y="30" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white">DE</text>
+  <text x="60" y="28" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">Divórcio Express</text>
+</svg>

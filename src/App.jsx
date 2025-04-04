@@ -208,10 +208,10 @@ function App() {
               <picture>
                 <source
                   media="(max-width: 768px)"
-                  srcSet="/images/main-banner-md-reponsive.webp"
+                  srcSet="./images/main-banner-md-reponsive.webp"
                 />
                 <img
-                  src="/images/main-banner-xxl.webp"
+                  src="./images/main-banner-xxl.webp"
                   alt="Processo de divórcio simplificado"
                 />
               </picture>
