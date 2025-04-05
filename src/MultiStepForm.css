@@ -252,58 +252,60 @@
 /* Responsividade */
 @media (max-width: 768px) {
   .multi-step-container {
-    padding: 0 15px;
+    padding: 0;
   }
 
   .progress-header {
-    padding: 15px 0;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    padding: 10px 5px;
+    width: 100%;
+    overflow: hidden;
   }
 
   .multi-step-progress {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 0 10px;
-    min-width: 500px;
+    width: 100%;
     margin: 0 auto;
-    flex-wrap: nowrap;
+    position: relative;
+    padding: 0 5px;
   }
 
   .multi-step-progress::before {
     content: "";
     position: absolute;
-    top: 25px;
-    left: 40px;
-    right: 40px;
+    top: 15px;
+    left: 18px;
+    right: 18px;
     height: 2px;
     background-color: #e0e0e0;
     z-index: 0;
   }
 
   .step-indicator {
-    flex: 1;
-    min-width: 70px;
-    max-width: 120px;
+    width: 20%;
+    min-width: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
-    margin: 0 5px;
+    z-index: 1;
+    padding: 0;
   }
 
   .step-number {
-    width: 28px;
-    height: 28px;
-    font-size: 0.9rem;
+    width: 20px;
+    height: 20px;
+    font-size: 0.7rem;
+    margin-bottom: 3px;
   }
 
   .step-text {
-    font-size: 0.65rem;
+    font-size: 0.55rem;
+    line-height: 1;
     text-align: center;
-    margin-top: 5px;
-    white-space: nowrap;
+    padding: 0 2px;
+    max-width: 60px;
   }
 
   .congratulations-message h2 {
