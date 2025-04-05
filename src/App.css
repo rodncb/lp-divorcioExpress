@@ -887,6 +887,72 @@
     gap: 15px;
     text-align: center;
   }
+
+  .hero-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-text,
+  .hero-image {
+    flex: 1;
+    max-width: 100%;
+  }
+
+  .hero-image {
+    position: relative;
+    top: 0;
+    margin-top: 30px;
+    order: -1;
+  }
+
+  .hero-form {
+    max-width: 100%;
+    padding: 10px 0;
+    margin-top: 20px;
+  }
+
+  .hero-form .form-container {
+    padding: 15px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+
+  /* Específico para o campo de telefone */
+  .form-group input[type="tel"] {
+    font-size: 16px;
+    letter-spacing: 0.5px;
+  }
+
+  .form .submit-btn,
+  .submit-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+  }
+
+  .checkbox-group label {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .checkbox-group input[type="checkbox"] {
+    min-width: 16px;
+    min-height: 16px;
+    margin-top: 3px;
+  }
 }
 
 @media (max-width: 576px) {

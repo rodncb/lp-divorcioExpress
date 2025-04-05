@@ -194,8 +194,9 @@ function App() {
                             value={formState.phone}
                             onChange={handleInputChange}
                             required
-                            pattern="\(\d{2}\)[\s-]?\d{4,5}[\s-]?\d{4}"
-                            title="Digite um telefone válido (ex: (11) 91234-5678)"
+                            pattern="(\d{2})?\d{8,9}|\d{10,11}"
+                            placeholder="DDD + Número (ex: 24981058194)"
+                            title="Digite apenas números - DDD + número (ex: 24981058194)"
                           />
                         </div>
 
