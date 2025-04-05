@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://rodrigobezerra.github.io/lp-divorcioExpress",
+  "homepage": "https://rodncb.github.io/lp-divorcioExpress",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
