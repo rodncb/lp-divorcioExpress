@@ -195,8 +195,8 @@ function App() {
                             onChange={handleInputChange}
                             required
                             pattern="(\d{2})?\d{8,9}|\d{10,11}"
-                            placeholder="DDD + Número (ex: 24981058194)"
-                            title="Digite apenas números - DDD + número (ex: 24981058194)"
+                            placeholder="DDD + Número"
+                            title="Digite apenas números - DDD + número"
                           />
                         </div>
 
