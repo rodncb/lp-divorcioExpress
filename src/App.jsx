@@ -1,5 +1,9 @@
 import "./App.css";
 import { useState } from "react";
+import MultiStepForm from "./MultiStepForm";
+// Importando as imagens diretamente
+import bannerMobile from "../public/images/main-banner-md-reponsive.webp";
+import bannerDesktop from "../public/images/main-banner-xxl.webp";
 
 function App() {
   const [formState, setFormState] = useState({
@@ -206,12 +210,9 @@ function App() {
             </div>
             <div className="hero-image">
               <picture>
-                <source
-                  media="(max-width: 768px)"
-                  srcSet="./images/main-banner-md-reponsive.webp"
-                />
+                <source media="(max-width: 768px)" srcSet={bannerMobile} />
                 <img
-                  src="./images/main-banner-xxl.webp"
+                  src={bannerDesktop}
                   alt="Processo de divórcio simplificado"
                 />
               </picture>
