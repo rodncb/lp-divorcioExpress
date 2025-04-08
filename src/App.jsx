@@ -641,7 +641,7 @@ function App() {
               <div className="credentials-content">
                 <div className="credentials-image">
                   <img
-                    src="./src/images/oab-lp.png"
+                    src="images/oab-lp.png"
                     alt="Instituto Brasileiro de Direito de Família - OAB"
                     className="oab-image"
                   />
