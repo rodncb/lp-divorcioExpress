@@ -267,7 +267,8 @@ function App() {
                         </button>
 
                         <p className="form-note">
-                          Nós cuidamos de todo o processo no cartório
+                          Nós cuidamos de todo o processo no cartório ou
+                          judicial.
                         </p>
                       </form>
                     </div>
