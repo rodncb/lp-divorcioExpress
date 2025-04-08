@@ -15,6 +15,7 @@ function App() {
   const [activeQuestion, setActiveQuestion] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [showMultiStepForm, setShowMultiStepForm] = useState(false);
+  const [showTermsPopup, setShowTermsPopup] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -43,6 +44,11 @@ function App() {
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
+
+  const toggleTermsPopup = () => {
+    setShowTermsPopup(!showTermsPopup);
+  };
+
   return (
     <div className="App">
       {showMultiStepForm ? (
@@ -63,7 +69,13 @@ function App() {
           <header className="header">
             <div className="container">
               <div className="header-content">
-                <h1>Divórcio Express</h1>
+                <div className="logo">
+                  <img
+                    src="images/logo-novo.png"
+                    alt="Divórcio Express"
+                    className="logo-image"
+                  />
+                </div>
                 <button
                   className={`menu-toggle ${menuOpen ? "active" : ""}`}
                   onClick={toggleMenu}
@@ -87,6 +99,9 @@ function App() {
                   <a href="#contato" onClick={() => setMenuOpen(false)}>
                     Contato
                   </a>
+                  <a href="/blog" onClick={() => setMenuOpen(false)}>
+                    Blog
+                  </a>
                 </nav>
               </div>
             </div>
@@ -97,8 +112,10 @@ function App() {
             <div className="container">
               <div className="hero-content">
                 <div className="hero-text">
-                  <h2>Divórcio Online</h2>
-                  <p className="hero-subtitle">Sem Taxas de Advogado</p>
+                  <h1 className="hero-title">Divórcio Online</h1>
+                  <p className="hero-subtitle">
+                    Especialistas em Direito de Família
+                  </p>
                   <p className="hero-description">
                     Um processo de divórcio rápido, acessível e simples usando
                     nosso questionário guiado e serviço de registro completo.
@@ -151,12 +168,33 @@ function App() {
                             required
                           >
                             <option value="">Selecione...</option>
-                            <option value="SP">São Paulo</option>
-                            <option value="RJ">Rio de Janeiro</option>
-                            <option value="MG">Minas Gerais</option>
+                            <option value="AC">Acre</option>
+                            <option value="AL">Alagoas</option>
+                            <option value="AP">Amapá</option>
+                            <option value="AM">Amazonas</option>
                             <option value="BA">Bahia</option>
+                            <option value="CE">Ceará</option>
+                            <option value="DF">Distrito Federal</option>
+                            <option value="ES">Espírito Santo</option>
+                            <option value="GO">Goiás</option>
+                            <option value="MA">Maranhão</option>
+                            <option value="MT">Mato Grosso</option>
+                            <option value="MS">Mato Grosso do Sul</option>
+                            <option value="MG">Minas Gerais</option>
+                            <option value="PA">Pará</option>
+                            <option value="PB">Paraíba</option>
+                            <option value="PR">Paraná</option>
+                            <option value="PE">Pernambuco</option>
+                            <option value="PI">Piauí</option>
+                            <option value="RJ">Rio de Janeiro</option>
+                            <option value="RN">Rio Grande do Norte</option>
                             <option value="RS">Rio Grande do Sul</option>
-                            {/* Adicione mais estados conforme necessário */}
+                            <option value="RO">Rondônia</option>
+                            <option value="RR">Roraima</option>
+                            <option value="SC">Santa Catarina</option>
+                            <option value="SP">São Paulo</option>
+                            <option value="SE">Sergipe</option>
+                            <option value="TO">Tocantins</option>
                           </select>
                         </div>
 
@@ -195,7 +233,6 @@ function App() {
                             onChange={handleInputChange}
                             required
                             pattern="(\d{2})?\d{8,9}|\d{10,11}"
-                            placeholder="DDD + Número"
                             title="Digite apenas números - DDD + número"
                           />
                         </div>
@@ -212,7 +249,15 @@ function App() {
                             />
                             <span>
                               Ao clicar em "Verificar Elegibilidade", você
-                              concorda com os Termos de Serviço
+                              concorda com os{" "}
+                              <button
+                                type="button"
+                                className="terms-link"
+                                onClick={toggleTermsPopup}
+                              >
+                                <i className="terms-icon">ℹ</i> Termos de
+                                Serviço
+                              </button>
                             </span>
                           </label>
                         </div>
@@ -269,8 +314,8 @@ function App() {
                   <div className="step-number">3</div>
                   <h3>Revise seus formulários</h3>
                   <p>
-                    Revise seus documentos legais personalizados antes do envio
-                    final.
+                    Revise seus formulários e envie, uma equipe de advogados
+                    especializados receberá seus dados e entrará em contato.
                   </p>
                 </div>
                 <div className="step">
@@ -278,7 +323,7 @@ function App() {
                   <h3>Solicite o divórcio</h3>
                   <p>
                     Dê o passo final em direção ao seu novo começo com
-                    instruções detalhadas de registro.
+                    instruções jurídicas detalhadas e de acordo com seu caso.
                   </p>
                 </div>
               </div>
@@ -369,8 +414,7 @@ function App() {
                         acessível
                       </li>
                       <li>
-                        Preparação rápida de todos os formulários judiciais em
-                        até 2 dias úteis
+                        Preparação rápida de todos os formulários judiciais
                       </li>
                       <li>
                         Instruções detalhadas explicando como iniciar um
@@ -380,7 +424,10 @@ function App() {
                         Conveniente para usar em qualquer dispositivo a qualquer
                         momento
                       </li>
-                      <li>Suporte responsivo por e-mail, chat e telefone</li>
+                      <li>
+                        Suporte responsivo por e-mail, chat e telefone e
+                        reuniões presenciais
+                      </li>
                     </ul>
                     <a href="#eligibility" className="pricing-cta">
                       Começar Agora
@@ -527,6 +574,34 @@ function App() {
                     </p>
                   </div>
                 </div>
+
+                <div className="faq-item">
+                  <div
+                    className={`faq-question ${
+                      activeQuestion === 5 ? "active" : ""
+                    }`}
+                    onClick={() => toggleQuestion(5)}
+                  >
+                    <h3>No Brasil posso fazer meu divórcio sozinho?</h3>
+                    <span className="faq-toggle">
+                      {activeQuestion === 5 ? "-" : "+"}
+                    </span>
+                  </div>
+                  <div
+                    className={`faq-answer ${
+                      activeQuestion === 5 ? "active" : ""
+                    }`}
+                  >
+                    <p>
+                      Não, é obrigatório contar com a assistência de um advogado
+                      para garantir que todos os procedimentos legais sejam
+                      seguidos corretamente. A Divórcio Express conta com equipe
+                      especializada em Divórcios e vai te auxiliar em todo o
+                      processo conforme a Legislação Brasileira e Ordem dos
+                      Advogados do Brasil.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </section>
@@ -547,11 +622,29 @@ function App() {
                 </div>
                 <div className="contact-item">
                   <h3>Telefone</h3>
-                  <p>(11) 9999-9999</p>
+                  <p>(11) 91680-1800</p>
                 </div>
                 <div className="contact-item">
-                  <h3>Horário de Atendimento</h3>
-                  <p>Segunda a Sexta: 9h às 18h</p>
+                  <h3>Endereço</h3>
+                  <p>
+                    Avenida Marquês De São Vicente, 230 Barra Funda São Paulo-
+                    Ed. Think Business Center, 18º Andar
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Seção Credenciais */}
+          <section className="credentials-section">
+            <div className="container">
+              <div className="credentials-content">
+                <div className="credentials-image">
+                  <img
+                    src="./src/images/oab-lp.png"
+                    alt="Instituto Brasileiro de Direito de Família - OAB"
+                    className="oab-image"
+                  />
                 </div>
               </div>
             </div>
@@ -568,46 +661,25 @@ function App() {
 
                 <div className="footer-links">
                   <div className="footer-column">
-                    <h3>Empresa</h3>
+                    <h3>Menu</h3>
                     <ul>
                       <li>
-                        <a href="#">Sobre Nós</a>
+                        <a href="#como-funciona">Como Funciona</a>
                       </li>
                       <li>
-                        <a href="#">Blog</a>
+                        <a href="#servico">Processo Simplificado</a>
                       </li>
                       <li>
-                        <a href="#">Carreiras</a>
+                        <a href="#avaliacoes">Avaliações</a>
                       </li>
-                    </ul>
-                  </div>
-
-                  <div className="footer-column">
-                    <h3>Suporte</h3>
-                    <ul>
                       <li>
-                        <a href="#faq">FAQ</a>
+                        <a href="#faq">Perguntas Frequentes</a>
                       </li>
                       <li>
                         <a href="#contato">Contato</a>
                       </li>
                       <li>
-                        <a href="#">Ajuda</a>
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div className="footer-column">
-                    <h3>Legal</h3>
-                    <ul>
-                      <li>
-                        <a href="#">Política de Privacidade</a>
-                      </li>
-                      <li>
-                        <a href="#">Termos de Uso</a>
-                      </li>
-                      <li>
-                        <a href="#">Aviso Legal</a>
+                        <a href="/blog">Blog</a>
                       </li>
                     </ul>
                   </div>
@@ -615,7 +687,17 @@ function App() {
               </div>
 
               <div className="footer-bottom">
-                <p>© 2025 Divórcio Express. Todos os direitos reservados.</p>
+                <div className="footer-bottom-content">
+                  <p>
+                    © 2025 Divórcio Express. Todos os direitos reservados.
+                    <a href="#" className="footer-legal-link">
+                      Política de Privacidade
+                    </a>
+                    <a href="#" className="footer-legal-link">
+                      Termos de Uso
+                    </a>
+                  </p>
+                </div>
                 <div className="social-links">
                   <a href="#" aria-label="Facebook">
                     Facebook
@@ -630,6 +712,51 @@ function App() {
               </div>
             </div>
           </footer>
+
+          {/* WhatsApp Button */}
+          <a
+            href="https://wa.me/5511916801800"
+            className="whatsapp-button"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Converse conosco pelo WhatsApp"
+          >
+            <i className="fab fa-whatsapp"></i>
+          </a>
+
+          {/* Modal de Termos de Serviço */}
+          {showTermsPopup && (
+            <div className="terms-popup-overlay" onClick={toggleTermsPopup}>
+              <div className="terms-popup" onClick={(e) => e.stopPropagation()}>
+                <h3>Termos de Serviço</h3>
+                <div className="terms-content">
+                  <p>
+                    Declaro, para os devidos fins, que as informações pessoais
+                    por mim prestadas neste formulário são verdadeiras,
+                    completas e atualizadas. Autorizo, de forma livre,
+                    informada, expressa e inequívoca, o tratamento dos referidos
+                    dados pessoais pela Divórcio Express, nos termos da Lei nº
+                    13.709/2018 – Lei Geral de Proteção de Dados Pessoais
+                    (LGPD), exclusivamente para as finalidades aqui descritas.
+                  </p>
+                  <p>
+                    Estou ciente de que meus dados poderão ser compartilhados
+                    com terceiros parceiros, estritamente quando necessário para
+                    o cumprimento dessas finalidades, asseguradas as garantias
+                    legais de confidencialidade e segurança. Autorizo, ainda, o
+                    armazenamento dos dados pelo período necessário ao
+                    cumprimento das obrigações legais e regulatórias, ou até
+                    eventual revogação deste consentimento, a qualquer tempo,
+                    mediante solicitação formal, conforme assegurado pela
+                    legislação vigente.
+                  </p>
+                </div>
+                <button className="close-popup" onClick={toggleTermsPopup}>
+                  ×
+                </button>
+              </div>
+            </div>
+          )}
         </>
       )}
     </div>
