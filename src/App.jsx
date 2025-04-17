@@ -71,9 +71,14 @@ function App() {
               <div className="header-content">
                 <div className="logo">
                   <img
-                    src="images/logo-novo.png"
+                    src="/lp-divorcioExpress/images/logo-novo.png"
                     alt="Divórcio Express"
                     className="logo-image"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src =
+                        "https://rodncb.github.io/lp-divorcioExpress/images/logo-novo.png";
+                    }}
                   />
                 </div>
                 <button
@@ -112,10 +117,15 @@ function App() {
             <div className="container">
               <div className="hero-content">
                 <div className="hero-text">
-                  <h1 className="hero-title">Divórcio Online</h1>
+                  <h1 className="hero-title">
+                    Comece o seu
+                    <br />
+                    Divórcio Online
+                  </h1>
                   <p className="hero-subtitle">
                     Especialistas em Direito de Família
                   </p>
+                  <p className="hero-highlight">Sem honorários advocatícios</p>
                   <p className="hero-description">
                     Um processo de divórcio rápido, acessível e simples usando
                     nosso questionário guiado e serviço de registro completo.
@@ -278,10 +288,18 @@ function App() {
                   <picture>
                     <source
                       media="(max-width: 768px)"
-                      srcSet="images/main-banner-md-reponsive.webp"
+                      srcSet={
+                        process.env.NODE_ENV === "production"
+                          ? "/lp-divorcioExpress/images/MainBannerNew.jpeg"
+                          : "./images/MainBannerNew.jpeg"
+                      }
                     />
                     <img
-                      src="images/main-banner-xxl.webp"
+                      src={
+                        process.env.NODE_ENV === "production"
+                          ? "/lp-divorcioExpress/images/MainBannerNew.jpeg"
+                          : "./images/MainBannerNew.jpeg"
+                      }
                       alt="Processo de divórcio simplificado"
                     />
                   </picture>
@@ -642,16 +660,26 @@ function App() {
               <div className="credentials-content">
                 <div className="credentials-image">
                   <img
-                    src="images/oab-lp.png"
-                    alt="OAB - Ordem dos Advogados do Brasil"
-                    className="oab-image"
+                    src="/lp-divorcioExpress/images/ibdfam-logo.png"
+                    alt="IBDFAM - Instituto Brasileiro de Direito de Família"
+                    className="ibdfam-image"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src =
+                        "https://www.ibdfam.org.br/assets/img/logo.png";
+                    }}
                   />
                 </div>
                 <div className="credentials-image">
                   <img
-                    src="images/ibdfam-logo.png"
-                    alt="IBDFAM - Instituto Brasileiro de Direito de Família"
-                    className="ibdfam-image"
+                    src="/lp-divorcioExpress/images/oab-lp.png"
+                    alt="OAB - Ordem dos Advogados do Brasil"
+                    className="oab-image"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src =
+                        "https://www.oabsp.org.br/img/logo-oabsp.png";
+                    }}
                   />
                 </div>
               </div>
@@ -664,11 +692,18 @@ function App() {
               <div className="footer-content">
                 <div className="footer-logo">
                   <img
-                    src="images/logo-novo.png"
+                    src={
+                      process.env.NODE_ENV === "production"
+                        ? "/lp-divorcioExpress/images/logo-novo.png"
+                        : "./images/logo-novo.png"
+                    }
                     alt="Divórcio Express"
                     className="logo-image"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "/images/logo-novo.png";
+                    }}
                   />
-                  <h2>Divórcio Express</h2>
                   <p>Divórcio online rápido e sem complicações</p>
                 </div>
 
