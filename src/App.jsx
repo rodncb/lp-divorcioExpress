@@ -125,7 +125,7 @@ function App() {
                   <p className="hero-subtitle">
                     Especialistas em Direito de Família
                   </p>
-                  <p className="hero-highlight">Sem honorários advocatícios</p>
+                  <p className="hero-highlight">O apoio jurídico que você precisa, com condições facilitadas</p>
                   <p className="hero-description">
                     Um processo de divórcio rápido, acessível e simples usando
                     nosso questionário guiado e serviço de registro completo.
@@ -652,25 +652,23 @@ function App() {
               <div className="credentials-content">
                 <div className="credentials-image">
                   <img
-                    src="/lp-divorcioExpress/images/ibdfam-logo.png"
+                    src="images/IBDFAM.jpeg"
                     alt="IBDFAM - Instituto Brasileiro de Direito de Família"
                     className="ibdfam-image"
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src =
-                        "https://www.ibdfam.org.br/assets/img/logo.png";
+                      e.target.src = "/lp-divorcioExpress/src/images/IBDFAM.jpeg";
                     }}
                   />
                 </div>
                 <div className="credentials-image">
                   <img
-                    src="/lp-divorcioExpress/images/oab-lp.png"
+                    src="images/OAB.jpeg"
                     alt="OAB - Ordem dos Advogados do Brasil"
                     className="oab-image"
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src =
-                        "https://www.oabsp.org.br/img/logo-oabsp.png";
+                      e.target.src = "/lp-divorcioExpress/src/images/OAB.jpeg";
                     }}
                   />
                 </div>
