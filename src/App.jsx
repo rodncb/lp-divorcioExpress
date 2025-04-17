@@ -125,7 +125,9 @@ function App() {
                   <p className="hero-subtitle">
                     Especialistas em Direito de Família
                   </p>
-                  <p className="hero-highlight">O apoio jurídico que você precisa, com condições facilitadas</p>
+                  <p className="hero-highlight">
+                    O apoio jurídico que você precisa, com condições facilitadas
+                  </p>
                   <p className="hero-description">
                     Um processo de divórcio rápido, acessível e simples usando
                     nosso questionário guiado e serviço de registro completo.
@@ -288,10 +290,10 @@ function App() {
                   <picture>
                     <source
                       media="(max-width: 768px)"
-                      srcSet="images/MainBannerNew.jpeg"
+                      srcSet="images/MainNewMobile.jpeg"
                     />
                     <img
-                      src="images/MainBannerNew.jpeg"
+                      src="images/MainNewDesktop.jpeg"
                       alt="Processo de divórcio simplificado"
                     />
                   </picture>
