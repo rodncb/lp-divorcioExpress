@@ -652,7 +652,7 @@ function App() {
               <div className="credentials-content">
                 <div className="credentials-image">
                   <img
-                    src="images/IBDFAM.jpeg"
+                    src="images/IBDFAMNew.jpeg"
                     alt="IBDFAM - Instituto Brasileiro de Direito de Família"
                     className="ibdfam-image"
                   />
