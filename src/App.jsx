@@ -168,6 +168,7 @@ function App() {
                             required
                           >
                             <option value="">Selecione...</option>
+                            <option value="SP">São Paulo</option>
                             <option value="AC">Acre</option>
                             <option value="AL">Alagoas</option>
                             <option value="AP">Amapá</option>
@@ -192,7 +193,6 @@ function App() {
                             <option value="RO">Rondônia</option>
                             <option value="RR">Roraima</option>
                             <option value="SC">Santa Catarina</option>
-                            <option value="SP">São Paulo</option>
                             <option value="SE">Sergipe</option>
                             <option value="TO">Tocantins</option>
                           </select>
@@ -643,8 +643,15 @@ function App() {
                 <div className="credentials-image">
                   <img
                     src="images/oab-lp.png"
-                    alt="Instituto Brasileiro de Direito de Família - OAB"
+                    alt="OAB - Ordem dos Advogados do Brasil"
                     className="oab-image"
+                  />
+                </div>
+                <div className="credentials-image">
+                  <img
+                    src="images/ibdfam-logo.png"
+                    alt="IBDFAM - Instituto Brasileiro de Direito de Família"
+                    className="ibdfam-image"
                   />
                 </div>
               </div>
@@ -656,6 +663,11 @@ function App() {
             <div className="container">
               <div className="footer-content">
                 <div className="footer-logo">
+                  <img
+                    src="images/logo-novo.png"
+                    alt="Divórcio Express"
+                    className="logo-image"
+                  />
                   <h2>Divórcio Express</h2>
                   <p>Divórcio online rápido e sem complicações</p>
                 </div>

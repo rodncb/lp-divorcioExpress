@@ -10,6 +10,7 @@ function MultiStepForm({ initialData, onSubmit }) {
     propertyDebtInfo: {},
     otherIncomeInfo: {},
   });
+  const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (section, field, value) => {
     setFormData((prev) => ({
@@ -23,13 +24,47 @@ function MultiStepForm({ initialData, onSubmit }) {
 
   const nextStep = () => setStep((prev) => prev + 1);
   const prevStep = () => setStep((prev) => prev - 1);
+  const returnToHome = () => window.location.reload();
 
   const handleFinalSubmit = (e) => {
     e.preventDefault();
     console.log("Dados completos para enviar:", formData);
     if (onSubmit) onSubmit(formData);
-    // Aqui você pode chamar a API do RD Station
+    // Aqui você pode chamar a API do RD Station ou realizar o envio do formulário
+    setSubmitted(true);
   };
+
+  // Se o formulário foi enviado, exibir página de agradecimento
+  if (submitted) {
+    return (
+      <div className="multi-step-container thank-you-container">
+        <div className="thank-you-content">
+          <h1 className="thank-you-title">Obrigado!</h1>
+          <p className="thank-you-message">
+            Seus dados foram recebidos com sucesso!
+          </p>
+          <p className="thank-you-detail">
+            Um de nossos advogados especialistas entrará em contato em breve
+            para ajudar com o seu processo de divórcio.
+          </p>
+
+          <div className="thank-you-actions">
+            <button onClick={returnToHome} className="return-button">
+              Voltar à página inicial
+            </button>
+            <a
+              href="https://wa.me/5511916801800"
+              className="whatsapp-contact-button"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Falar agora pelo WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="multi-step-container">
@@ -45,19 +80,19 @@ function MultiStepForm({ initialData, onSubmit }) {
             <span className="step-text">Passo 1 - Casamento</span>
           </div>
           <div
-            className={`step-indicator ${step >= 2 ? "active" : "inactive"}`}
+            className={`step-indicator ${step >= 2 ? "completed" : "inactive"}`}
           >
             <span className="step-number">2</span>
             <span className="step-text">Passo 2 - Crianças</span>
           </div>
           <div
-            className={`step-indicator ${step >= 3 ? "inactive" : "inactive"}`}
+            className={`step-indicator ${step >= 3 ? "completed" : "inactive"}`}
           >
             <span className="step-number">3</span>
             <span className="step-text">Passo 3 - Propriedade e Dívida</span>
           </div>
           <div
-            className={`step-indicator ${step >= 4 ? "inactive" : "inactive"}`}
+            className={`step-indicator ${step >= 4 ? "completed" : "inactive"}`}
           >
             <span className="step-number">4</span>
             <span className="step-text">Passo 4 - Outras Rendas</span>
@@ -195,19 +230,36 @@ function MultiStepForm({ initialData, onSubmit }) {
 
         <div className="form-buttons">
           {step > 1 && (
-            <button type="button" onClick={prevStep} className="form-button">
+            <button
+              type="button"
+              onClick={prevStep}
+              className="form-button back-button"
+            >
               Voltar
             </button>
           )}
           {step < 4 && (
-            <button type="button" onClick={nextStep} className="form-button">
+            <button
+              type="button"
+              onClick={nextStep}
+              className="form-button next-button"
+            >
               Próximo
             </button>
           )}
           {step === 4 && (
-            <button type="submit" className="form-button">
-              Enviar
-            </button>
+            <div className="final-buttons">
+              <button
+                type="button"
+                onClick={prevStep}
+                className="form-button back-button"
+              >
+                Voltar
+              </button>
+              <button type="submit" className="form-button submit-button">
+                Enviar
+              </button>
+            </div>
           )}
         </div>
       </form>

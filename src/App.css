@@ -1,5 +1,5 @@
 .App {
-  font-family: "Arial", sans-serif;
+  font-family: "Roboto", sans-serif;
   color: #45373e;
   background-color: #d9d0ac;
   min-height: 100vh;
@@ -36,18 +36,25 @@
 }
 
 .logo-image {
-  height: 90px;
+  height: 100px; /* Aumentado de 90px para 100px */
   width: auto;
-  max-width: 300px;
+  max-width: 340px; /* Aumentado de 300px para 340px */
   object-fit: contain;
   margin-top: 0;
   padding: 10px 0;
+  transition: transform 0.3s ease;
+}
+
+.logo-image:hover {
+  transform: scale(1.05);
 }
 
 .header h1 {
   color: #8f2e1d;
   margin: 0;
   font-size: 2rem;
+  font-family: "Raleway", sans-serif;
+  font-weight: 700;
 }
 
 .main-nav {
@@ -60,6 +67,8 @@
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s;
+  font-family: "Raleway", sans-serif;
+  font-size: 1.05rem;
 }
 
 .main-nav a:hover {
@@ -160,25 +169,28 @@
 }
 
 .hero-title {
-  font-size: 2.5rem;
+  font-size: 2.8rem; /* Aumentado de 2.5rem para 2.8rem */
   font-weight: 700;
   color: #2c3e50;
   margin-bottom: 1rem;
   line-height: 1.2;
+  font-family: "Raleway", sans-serif;
 }
 
 .hero-subtitle {
-  font-size: 1.8rem;
+  font-size: 1.9rem; /* Aumentado de 1.8rem para 1.9rem */
   margin-bottom: 20px;
   font-weight: 600;
   color: #8f2e1d;
+  font-family: "Raleway", sans-serif;
 }
 
 .hero-description {
-  font-size: 1.2rem;
+  font-size: 1.25rem; /* Aumentado de 1.2rem para 1.25rem */
   margin-bottom: 30px;
   line-height: 1.6;
   color: #333;
+  font-family: "Noto Sans", sans-serif;
 }
 
 .hero-cta {
@@ -207,7 +219,9 @@
   margin-top: 0;
   margin-bottom: 20px;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.6rem; /* Aumentado de 1.5rem para 1.6rem */
+  font-family: "Raleway", sans-serif;
+  font-weight: 600;
 }
 
 .cta-button {
@@ -221,6 +235,7 @@
   text-decoration: none;
   transition: all 0.3s;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: "Noto Sans", sans-serif;
 }
 
 .cta-button:hover {
@@ -371,6 +386,9 @@
   text-align: center;
   color: #8f2e1d;
   margin-bottom: 40px;
+  font-family: "Raleway", sans-serif;
+  font-weight: 700;
+  font-size: 2.2rem;
 }
 
 .steps-container {
@@ -404,11 +422,15 @@
 .step h3 {
   color: #45373e;
   margin-bottom: 15px;
+  font-family: "Raleway", sans-serif;
+  font-weight: 600;
 }
 
 .step p {
   color: #666;
   line-height: 1.6;
+  font-family: "Noto Sans", sans-serif;
+  text-align: justify;
 }
 
 /* Testimonials Section */
@@ -421,7 +443,9 @@
   text-align: center;
   color: #8f2e1d;
   margin-bottom: 15px;
-  font-size: 2.2rem;
+  font-size: 2.3rem; /* Aumentado de 2.2rem para 2.3rem */
+  font-family: "Raleway", sans-serif;
+  font-weight: 700;
 }
 
 .section-subtitle {
@@ -429,8 +453,9 @@
   max-width: 800px;
   margin: 0 auto 40px;
   color: #666;
-  font-size: 1.1rem;
+  font-size: 1.15rem; /* Aumentado de 1.1rem para 1.15rem */
   line-height: 1.6;
+  font-family: "Noto Sans", sans-serif;
 }
 
 .contact-section .section-subtitle {
@@ -468,6 +493,8 @@
   margin-bottom: 20px;
   color: #555;
   line-height: 1.6;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 1.05rem;
 }
 
 .testimonial-author {
@@ -478,6 +505,8 @@
 .author-info h4 {
   margin: 0 0 5px 0;
   color: #45373e;
+  font-family: "Raleway", sans-serif;
+  font-weight: 600;
 }
 
 .author-info p {
@@ -546,19 +575,11 @@
 }
 
 .pricing-price h3 {
-  font-size: 2.5rem;
+  font-size: 2.6rem; /* Aumentado de 2.5rem para 2.6rem */
   margin: 0;
   color: #8f2e1d;
-}
-
-.pricing-card.featured .pricing-price h3 {
-  color: white;
-}
-
-.pricing-price p {
-  margin: 5px 0 0;
-  font-size: 0.9rem;
-  opacity: 0.8;
+  font-family: "Raleway", sans-serif;
+  font-weight: 700;
 }
 
 .pricing-body {
@@ -570,6 +591,8 @@
   margin-bottom: 20px;
   color: #555;
   line-height: 1.6;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 1.05rem;
 }
 
 .pricing-features {
@@ -584,6 +607,8 @@
   position: relative;
   padding-left: 30px;
   color: #555;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 1.05rem;
 }
 
 .pricing-features li:before {
@@ -625,7 +650,9 @@
   text-align: center;
   color: #8f2e1d;
   margin-bottom: 30px;
-  font-size: 2.2rem;
+  font-size: 2.3rem; /* Aumentado de 2.2rem para 2.3rem */
+  font-family: "Raleway", sans-serif;
+  font-weight: 700;
 }
 
 .faq-container {
@@ -662,8 +689,9 @@
 
 .faq-question h3 {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1.15rem; /* Aumentado de 1.1rem para 1.15rem */
   font-weight: 600;
+  font-family: "Raleway", sans-serif;
 }
 
 .faq-toggle {
@@ -687,6 +715,8 @@
   margin: 0;
   line-height: 1.6;
   color: #555;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 1.05rem;
 }
 
 /* Contact Section */
@@ -699,7 +729,9 @@
   text-align: center;
   color: #8f2e1d;
   margin-bottom: 15px;
-  font-size: 2.2rem;
+  font-size: 2.3rem; /* Aumentado de 2.2rem para 2.3rem */
+  font-family: "Raleway", sans-serif;
+  font-weight: 700;
 }
 
 .contact-info-centered {
@@ -729,12 +761,16 @@
 .contact-item h3 {
   margin: 0 0 10px;
   color: #8f2e1d;
-  font-size: 1.2rem;
+  font-size: 1.25rem; /* Aumentado de 1.2rem para 1.25rem */
+  font-family: "Raleway", sans-serif;
+  font-weight: 600;
 }
 
 .contact-item p {
   margin: 0;
   color: #555;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 1.05rem;
 }
 
 /* Footer */
@@ -755,6 +791,15 @@
 .footer-logo {
   flex: 1;
   max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footer-logo img {
+  max-width: 220px;
+  margin-bottom: 15px;
+  filter: brightness(0) invert(1);
 }
 
 .footer-links {
@@ -764,17 +809,22 @@
 
 .footer-logo h2 {
   margin: 0 0 10px;
-  font-size: 1.8rem;
+  font-size: 1.9rem; /* Aumentado de 1.8rem para 1.9rem */
+  font-family: "Raleway", sans-serif;
+  font-weight: 700;
 }
 
 .footer-logo p {
   margin: 0;
   opacity: 0.8;
+  font-family: "Noto Sans", sans-serif;
 }
 
 .footer-column h3 {
   margin: 0 0 20px;
-  font-size: 1.2rem;
+  font-size: 1.25rem; /* Aumentado de 1.2rem para 1.25rem */
+  font-family: "Raleway", sans-serif;
+  font-weight: 600;
 }
 
 .footer-column ul {
@@ -792,6 +842,8 @@
   text-decoration: none;
   opacity: 0.8;
   transition: opacity 0.3s;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 1.05rem;
 }
 
 .footer-column a:hover {
@@ -818,6 +870,7 @@
   align-items: center;
   gap: 15px;
   flex-wrap: wrap;
+  font-family: "Noto Sans", sans-serif;
 }
 
 .footer-legal-link {
@@ -1000,8 +1053,8 @@
   }
 
   .logo-image {
-    height: 70px;
-    max-width: 220px;
+    height: 80px; /* Aumentado de 70px para 80px */
+    max-width: 240px; /* Aumentado de 220px para 240px */
     margin-top: 5px;
   }
 
@@ -1152,7 +1205,7 @@
   }
 
   .hero-title {
-    font-size: 2rem;
+    font-size: 2.2rem; /* Aumentado de 2rem para 2.2rem */
   }
 
   .hero {
@@ -1164,11 +1217,11 @@
 
 @media (max-width: 576px) {
   .hero h2 {
-    font-size: 2.2rem;
+    font-size: 2.4rem; /* Aumentado de 2.2rem para 2.4rem */
   }
 
   .hero-subtitle {
-    font-size: 1.4rem;
+    font-size: 1.5rem; /* Aumentado de 1.4rem para 1.5rem */
   }
 
   .hero-form {
@@ -1351,31 +1404,41 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 40px;
 }
 
 .credentials-image {
-  max-width: 400px;
+  max-width: 280px;
   width: 100%;
   padding: 20px;
   background: white;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
+  text-align: center;
 }
 
 .credentials-image:hover {
   transform: translateY(-5px);
 }
 
-.oab-image {
+.oab-image,
+.ibdfam-image {
   width: 100%;
   height: auto;
   display: block;
+  max-height: 120px;
+  object-fit: contain;
 }
 
 @media (max-width: 768px) {
+  .credentials-content {
+    flex-direction: column;
+    gap: 30px;
+  }
+
   .credentials-image {
-    max-width: 300px;
+    max-width: 250px;
     padding: 15px;
   }
 }

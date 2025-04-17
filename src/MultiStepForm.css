@@ -170,6 +170,7 @@
   display: flex;
   justify-content: space-between;
   margin-top: 30px;
+  gap: 15px;
 }
 
 .form-button {
@@ -224,5 +225,143 @@
 
   .form-button {
     width: 100%;
+  }
+}
+
+/* Adicionando ao final do arquivo CSS existente */
+
+/* Estilos para os botões de voltar */
+.back-button {
+  background-color: #f5f5f5;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.back-button:hover {
+  background-color: #eaeaea;
+}
+
+.next-button,
+.submit-button {
+  background-color: #8f2e1d;
+  color: white;
+}
+
+.next-button:hover,
+.submit-button:hover {
+  background-color: #7d2819;
+}
+
+.final-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Estilos para a página de agradecimento */
+.thank-you-container {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f7f7f7;
+  padding: 30px;
+  border-radius: 8px;
+}
+
+.thank-you-content {
+  text-align: center;
+  max-width: 700px;
+  padding: 40px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.thank-you-title {
+  color: #8f2e1d;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  font-family: "Raleway", sans-serif;
+  font-weight: 700;
+}
+
+.thank-you-message {
+  font-size: 1.3rem;
+  color: #333;
+  margin-bottom: 15px;
+  font-family: "Noto Sans", sans-serif;
+}
+
+.thank-you-detail {
+  color: #555;
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  font-family: "Noto Sans", sans-serif;
+}
+
+.thank-you-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.return-button {
+  padding: 12px 24px;
+  background-color: #f5f5f5;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 80%;
+  max-width: 300px;
+  text-decoration: none;
+  font-family: "Noto Sans", sans-serif;
+}
+
+.return-button:hover {
+  background-color: #eaeaea;
+}
+
+.whatsapp-contact-button {
+  display: inline-block;
+  background-color: #25d366;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 300px;
+  text-align: center;
+  font-family: "Noto Sans", sans-serif;
+}
+
+.whatsapp-contact-button:hover {
+  background-color: #20ba57;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+@media (min-width: 768px) {
+  .thank-you-actions {
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .return-button,
+  .whatsapp-contact-button {
+    width: auto;
   }
 }
