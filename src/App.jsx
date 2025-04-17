@@ -655,10 +655,6 @@ function App() {
                     src="images/IBDFAM.jpeg"
                     alt="IBDFAM - Instituto Brasileiro de Direito de Família"
                     className="ibdfam-image"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "/lp-divorcioExpress/src/images/IBDFAM.jpeg";
-                    }}
                   />
                 </div>
                 <div className="credentials-image">
@@ -666,10 +662,6 @@ function App() {
                     src="images/OAB.jpeg"
                     alt="OAB - Ordem dos Advogados do Brasil"
                     className="oab-image"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "/lp-divorcioExpress/src/images/OAB.jpeg";
-                    }}
                   />
                 </div>
               </div>
