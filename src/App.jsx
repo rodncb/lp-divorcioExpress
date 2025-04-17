@@ -288,18 +288,10 @@ function App() {
                   <picture>
                     <source
                       media="(max-width: 768px)"
-                      srcSet={
-                        process.env.NODE_ENV === "production"
-                          ? "/lp-divorcioExpress/images/MainBannerNew.jpeg"
-                          : "./images/MainBannerNew.jpeg"
-                      }
+                      srcSet="images/MainBannerNew.jpeg"
                     />
                     <img
-                      src={
-                        process.env.NODE_ENV === "production"
-                          ? "/lp-divorcioExpress/images/MainBannerNew.jpeg"
-                          : "./images/MainBannerNew.jpeg"
-                      }
+                      src="images/MainBannerNew.jpeg"
                       alt="Processo de divórcio simplificado"
                     />
                   </picture>
