@@ -226,18 +226,6 @@ function App() {
                 <div className="hero-image">
                   <picture>
                     <source
-                            new RDStationForms('formsite1-d4934bf9dcfb0061bd30', 'null').createForm();
-                          } catch (e) {
-                            console.error("Erro ao carregar formulário RD Station:", e);
-                          }
-                        `}
-                      </script>
-                    </div>
-                  </div>
-                </div>
-                <div className="hero-image">
-                  <picture>
-                    <source
                       media="(max-width: 768px)"
                       srcSet="images/MainNewMobile.jpeg"
                     />
