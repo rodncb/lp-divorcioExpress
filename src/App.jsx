@@ -31,43 +31,41 @@ function App() {
 
     // Aqui enviamos os dados básicos para o RD Station
     try {
-      const convertToRDStationData = () => {
-        // Preparar os dados no formato que o RD Station espera
-        const rdStationData = new FormData();
-        
-        // ID do formulário no RD Station (obrigatório)
-        rdStationData.append("token_rdstation", "formsite1-d4934bf9dcfb0061bd30");
-        rdStationData.append("identificador", "form-elegibilidade-divorcio");
+      // Preparar os dados no formato que o RD Station espera
+      const rdStationData = {
+        // Token de acesso ao formulário
+        token_rdstation: "formsite1-d4934bf9dcfb0061bd30",
+        identificador: "form-elegibilidade-divorcio",
         
         // Dados do usuário
-        rdStationData.append("name", formState.name);
-        rdStationData.append("email", formState.email);
-        rdStationData.append("cf_telefone", formState.phone);
-        rdStationData.append("cf_estado", formState.state);
-        rdStationData.append("cf_acordo_conjuge", formState.hasAgreement);
-
-        return rdStationData;
+        name: formState.name,
+        email: formState.email,
+        cf_telefone: formState.phone,
+        cf_estado: formState.state,
+        cf_acordo_conjuge: formState.hasAgreement
       };
 
       // URL para envio dos dados ao RD Station
       const url = `https://app.rdstation.com.br/api/1.3/conversions`;
 
-      // Envio dos dados usando fetch API
+      // Envio dos dados usando fetch API com headers e body formatados corretamente
       fetch(url, {
         method: "POST",
-        body: convertToRDStationData(),
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(rdStationData),
         mode: "cors",
       })
         .then((response) => {
           if (response.ok) {
             console.log("Dados enviados com sucesso para o RD Station!");
           } else {
-            console.error(
-              "Erro ao enviar dados para o RD Station:",
-              response.statusText
-            );
+            return response.text().then(text => {
+              console.error("Erro ao enviar dados para o RD Station:", text);
+            });
           }
-
           // Independente do resultado, continuamos para o próximo passo
           setShowMultiStepForm(true);
         })
