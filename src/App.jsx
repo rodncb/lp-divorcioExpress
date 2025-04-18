@@ -28,50 +28,53 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Formulário enviado:", formState);
-    
+
     // Aqui enviamos os dados básicos para o RD Station
     try {
       const convertToRDStationData = () => {
         // Preparar os dados no formato que o RD Station espera
         const rdStationData = new FormData();
-        rdStationData.append('name', formState.name);
-        rdStationData.append('email', formState.email);
-        rdStationData.append('cf_telefone', formState.phone);
-        rdStationData.append('cf_estado', formState.state);
-        rdStationData.append('cf_acordo_conjuge', formState.hasAgreement);
-        
+        rdStationData.append("name", formState.name);
+        rdStationData.append("email", formState.email);
+        rdStationData.append("cf_telefone", formState.phone);
+        rdStationData.append("cf_estado", formState.state);
+        rdStationData.append("cf_acordo_conjuge", formState.hasAgreement);
+
         return rdStationData;
       };
-      
+
       // ID do formulário no RD Station
       const formId = "formsite1-d4934bf9dcfb0061bd30";
-      
+
       // URL para envio dos dados ao RD Station
       const url = `https://app.rdstation.com.br/api/1.3/conversions`;
-      
+
       // Envio dos dados usando fetch API
       fetch(url, {
-        method: 'POST',
+        method: "POST",
         body: convertToRDStationData(),
-        mode: 'cors'
+        mode: "cors",
       })
-      .then(response => {
-        if (response.ok) {
-          console.log('Dados enviados com sucesso para o RD Station!');
-        } else {
-          console.error('Erro ao enviar dados para o RD Station:', response.statusText);
-        }
-        
-        // Independente do resultado, continuamos para o próximo passo
-        setShowMultiStepForm(true);
-      })
-      .catch(error => {
-        console.error('Falha na comunicação com o RD Station:', error);
-        // Mesmo com erro, continuamos para o próximo passo
-        setShowMultiStepForm(true);
-      });
+        .then((response) => {
+          if (response.ok) {
+            console.log("Dados enviados com sucesso para o RD Station!");
+          } else {
+            console.error(
+              "Erro ao enviar dados para o RD Station:",
+              response.statusText
+            );
+          }
+
+          // Independente do resultado, continuamos para o próximo passo
+          setShowMultiStepForm(true);
+        })
+        .catch((error) => {
+          console.error("Falha na comunicação com o RD Station:", error);
+          // Mesmo com erro, continuamos para o próximo passo
+          setShowMultiStepForm(true);
+        });
     } catch (error) {
-      console.error('Erro ao enviar dados para o RD Station:', error);
+      console.error("Erro ao enviar dados para o RD Station:", error);
       // Em caso de erro, continuamos para o próximo passo
       setShowMultiStepForm(true);
     }
@@ -93,38 +96,6 @@ function App() {
   const toggleTermsPopup = () => {
     setShowTermsPopup(!showTermsPopup);
   };
-
-  // Adicionando useEffect para carregar o formulário do RD Station
-  useEffect(() => {
-    // Verifica se o script RD Station está disponível
-    if (window.RDStationForms) {
-      try {
-        // Cria o formulário do RD Station
-        new window.RDStationForms(
-          "formsite1-d4934bf9dcfb0061bd30",
-          "null"
-        ).createForm();
-      } catch (e) {
-        console.error("Erro ao carregar formulário RD Station:", e);
-      }
-    } else {
-      // Se o script ainda não foi carregado, tenta novamente em 1 segundo
-      const timer = setTimeout(() => {
-        if (window.RDStationForms) {
-          try {
-            new window.RDStationForms(
-              "formsite1-d4934bf9dcfb0061bd30",
-              "null"
-            ).createForm();
-          } catch (e) {
-            console.error("Erro ao carregar formulário RD Station:", e);
-          }
-        }
-      }, 1000);
-
-      return () => clearTimeout(timer);
-    }
-  }, []);
 
   return (
     <div className="App">
@@ -219,7 +190,123 @@ function App() {
                   <div id="eligibility" className="hero-form">
                     <div className="form-container">
                       <h3>Comece Seu Divórcio Online</h3>
-                      <div role="main" id="formsite1-d4934bf9dcfb0061bd30"></div>
+                      <form onSubmit={handleSubmit}>
+                        <div className="form-group">
+                          <label htmlFor="name">Nome</label>
+                          <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            value={formState.name}
+                            onChange={handleInputChange}
+                            required
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="email">Email</label>
+                          <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value={formState.email}
+                            onChange={handleInputChange}
+                            required
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="phone">Telefone</label>
+                          <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            value={formState.phone}
+                            onChange={handleInputChange}
+                            required
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="state">Estado</label>
+                          <select
+                            id="state"
+                            name="state"
+                            value={formState.state}
+                            onChange={handleInputChange}
+                            required
+                          >
+                            <option value="">Selecione</option>
+                            <option value="AC">Acre</option>
+                            <option value="AL">Alagoas</option>
+                            <option value="AP">Amapá</option>
+                            <option value="AM">Amazonas</option>
+                            <option value="BA">Bahia</option>
+                            <option value="CE">Ceará</option>
+                            <option value="DF">Distrito Federal</option>
+                            <option value="ES">Espírito Santo</option>
+                            <option value="GO">Goiás</option>
+                            <option value="MA">Maranhão</option>
+                            <option value="MT">Mato Grosso</option>
+                            <option value="MS">Mato Grosso do Sul</option>
+                            <option value="MG">Minas Gerais</option>
+                            <option value="PA">Pará</option>
+                            <option value="PB">Paraíba</option>
+                            <option value="PR">Paraná</option>
+                            <option value="PE">Pernambuco</option>
+                            <option value="PI">Piauí</option>
+                            <option value="RJ">Rio de Janeiro</option>
+                            <option value="RN">Rio Grande do Norte</option>
+                            <option value="RS">Rio Grande do Sul</option>
+                            <option value="RO">Rondônia</option>
+                            <option value="RR">Roraima</option>
+                            <option value="SC">Santa Catarina</option>
+                            <option value="SP">São Paulo</option>
+                            <option value="SE">Sergipe</option>
+                            <option value="TO">Tocantins</option>
+                          </select>
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="hasAgreement">
+                            Você e seu cônjuge concordam com a divisão de bens, ativos e todas as questões relacionadas aos filhos?
+                          </label>
+                          <div className="radio-group">
+                            <label>
+                              <input
+                                type="radio"
+                                name="hasAgreement"
+                                value="sim"
+                                checked={formState.hasAgreement === "sim"}
+                                onChange={handleInputChange}
+                                required
+                              />
+                              Sim
+                            </label>
+                            <label>
+                              <input
+                                type="radio"
+                                name="hasAgreement"
+                                value="nao"
+                                checked={formState.hasAgreement === "nao"}
+                                onChange={handleInputChange}
+                              />
+                              Não
+                            </label>
+                          </div>
+                        </div>
+                        <div className="form-group terms-checkbox">
+                          <label>
+                            <input
+                              type="checkbox"
+                              name="agreeTerms"
+                              checked={formState.agreeTerms}
+                              onChange={handleInputChange}
+                              required
+                            />
+                            Concordo com os <a href="#" onClick={toggleTermsPopup}>Termos e Condições</a>
+                          </label>
+                        </div>
+                        <button type="submit" className="submit-button">
+                          Verificar Elegibilidade
+                        </button>
+                      </form>
                     </div>
                   </div>
                 </div>

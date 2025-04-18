@@ -29,65 +29,100 @@ function MultiStepForm({ initialData, onSubmit }) {
   const handleFinalSubmit = (e) => {
     e.preventDefault();
     console.log("Dados completos para enviar:", formData);
-    
+
     // Envio para o RD Station
     try {
       const convertToRDStationData = () => {
         // Preparar os dados completos no formato que o RD Station espera
         const rdStationData = new FormData();
-        
+
         // Dados básicos do formulário inicial
-        rdStationData.append('name', formData.name || initialData.name || "");
-        rdStationData.append('email', formData.email || initialData.email || "");
-        rdStationData.append('cf_telefone', formData.phone || initialData.phone || "");
-        rdStationData.append('cf_estado', formData.state || initialData.state || "");
-        
+        rdStationData.append("name", formData.name || initialData.name || "");
+        rdStationData.append(
+          "email",
+          formData.email || initialData.email || ""
+        );
+        rdStationData.append(
+          "cf_telefone",
+          formData.phone || initialData.phone || ""
+        );
+        rdStationData.append(
+          "cf_estado",
+          formData.state || initialData.state || ""
+        );
+
         // Dados do formulário detalhado
-        rdStationData.append('cf_data_casamento', formData.marriageInfo?.date || "");
-        rdStationData.append('cf_local_casamento', formData.marriageInfo?.location || "");
-        rdStationData.append('cf_numero_filhos', formData.childrenInfo?.numChildren || "");
-        rdStationData.append('cf_filhos_necessidades_especiais', formData.childrenInfo?.specialNeeds || "");
-        rdStationData.append('cf_possui_propriedades', formData.propertyDebtInfo?.hasProperty || "");
-        rdStationData.append('cf_possui_dividas', formData.propertyDebtInfo?.hasDebt || "");
-        rdStationData.append('cf_outras_rendas', formData.otherIncomeInfo?.details || "");
-        
+        rdStationData.append(
+          "cf_data_casamento",
+          formData.marriageInfo?.date || ""
+        );
+        rdStationData.append(
+          "cf_local_casamento",
+          formData.marriageInfo?.location || ""
+        );
+        rdStationData.append(
+          "cf_numero_filhos",
+          formData.childrenInfo?.numChildren || ""
+        );
+        rdStationData.append(
+          "cf_filhos_necessidades_especiais",
+          formData.childrenInfo?.specialNeeds || ""
+        );
+        rdStationData.append(
+          "cf_possui_propriedades",
+          formData.propertyDebtInfo?.hasProperty || ""
+        );
+        rdStationData.append(
+          "cf_possui_dividas",
+          formData.propertyDebtInfo?.hasDebt || ""
+        );
+        rdStationData.append(
+          "cf_outras_rendas",
+          formData.otherIncomeInfo?.details || ""
+        );
+
         // Campo para identificar que é o formulário completo
-        rdStationData.append('cf_formulario_completo', "sim");
-        
+        rdStationData.append("cf_formulario_completo", "sim");
+
         return rdStationData;
       };
-      
+
       // ID do formulário no RD Station
       const formId = "formsite1-d4934bf9dcfb0061bd30";
-      
+
       // URL para envio dos dados ao RD Station
       const url = `https://app.rdstation.com.br/api/1.3/conversions`;
-      
+
       // Envio dos dados usando fetch API
       fetch(url, {
-        method: 'POST',
+        method: "POST",
         body: convertToRDStationData(),
-        mode: 'cors'
+        mode: "cors",
       })
-      .then(response => {
-        if (response.ok) {
-          console.log('Dados completos enviados com sucesso para o RD Station!');
-        } else {
-          console.error('Erro ao enviar dados completos para o RD Station:', response.statusText);
-        }
-        
-        // Independente do resultado, mostramos a tela de agradecimento
-        setSubmitted(true);
-        if (onSubmit) onSubmit(formData);
-      })
-      .catch(error => {
-        console.error('Falha na comunicação com o RD Station:', error);
-        // Mesmo com erro, mostramos a tela de agradecimento
-        setSubmitted(true);
-        if (onSubmit) onSubmit(formData);
-      });
+        .then((response) => {
+          if (response.ok) {
+            console.log(
+              "Dados completos enviados com sucesso para o RD Station!"
+            );
+          } else {
+            console.error(
+              "Erro ao enviar dados completos para o RD Station:",
+              response.statusText
+            );
+          }
+
+          // Independente do resultado, mostramos a tela de agradecimento
+          setSubmitted(true);
+          if (onSubmit) onSubmit(formData);
+        })
+        .catch((error) => {
+          console.error("Falha na comunicação com o RD Station:", error);
+          // Mesmo com erro, mostramos a tela de agradecimento
+          setSubmitted(true);
+          if (onSubmit) onSubmit(formData);
+        });
     } catch (error) {
-      console.error('Erro ao enviar dados para o RD Station:', error);
+      console.error("Erro ao enviar dados para o RD Station:", error);
       // Em caso de erro, mostramos a tela de agradecimento
       setSubmitted(true);
       if (onSubmit) onSubmit(formData);
