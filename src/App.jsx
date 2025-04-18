@@ -234,6 +234,7 @@ function App() {
                             required
                           >
                             <option value="">Selecione</option>
+                            <option value="SP">São Paulo</option>
                             <option value="AC">Acre</option>
                             <option value="AL">Alagoas</option>
                             <option value="AP">Amapá</option>
@@ -258,14 +259,15 @@ function App() {
                             <option value="RO">Rondônia</option>
                             <option value="RR">Roraima</option>
                             <option value="SC">Santa Catarina</option>
-                            <option value="SP">São Paulo</option>
+
                             <option value="SE">Sergipe</option>
                             <option value="TO">Tocantins</option>
                           </select>
                         </div>
                         <div className="form-group">
                           <label htmlFor="hasAgreement">
-                            Você e seu cônjuge concordam com a divisão de bens, ativos e todas as questões relacionadas aos filhos?
+                            Você e seu cônjuge concordam com a divisão de bens,
+                            ativos e todas as questões relacionadas aos filhos?
                           </label>
                           <div className="radio-group">
                             <label>
@@ -300,7 +302,10 @@ function App() {
                               onChange={handleInputChange}
                               required
                             />
-                            Concordo com os <a href="#" onClick={toggleTermsPopup}>Termos e Condições</a>
+                            Concordo com os{" "}
+                            <a href="#" onClick={toggleTermsPopup}>
+                              Termos e Condições
+                            </a>
                           </label>
                         </div>
                         <button type="submit" className="submit-button">

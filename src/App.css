@@ -283,7 +283,8 @@
 
 .radio-group {
   display: flex;
-  gap: 20px;
+  gap: 30px;
+  margin: 10px 0;
 }
 
 .radio-group label {
@@ -295,6 +296,9 @@
 
 .radio-group input {
   margin-right: 8px;
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
 }
 
 .form-group {
@@ -305,6 +309,8 @@
   display: block;
   margin-bottom: 8px;
   font-weight: 600;
+  color: #45373e;
+  font-size: 1rem;
 }
 
 .form-group input,
@@ -313,9 +319,18 @@
   width: 100%;
   padding: 12px;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 1rem;
   background-color: white;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #8f2e1d;
+  box-shadow: 0 0 0 2px rgba(143, 46, 29, 0.2);
 }
 
 .form-group select {
@@ -354,6 +369,25 @@
   flex-shrink: 0;
 }
 
+.terms-checkbox {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.terms-checkbox label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: normal;
+  font-size: 0.9rem;
+}
+
+.terms-checkbox input {
+  margin-right: 8px;
+  width: 18px;
+  height: 18px;
+}
+
 .form-note {
   text-align: center;
   margin-top: 20px;
@@ -376,6 +410,27 @@
 
 .submit-btn:hover {
   background-color: #7d2819;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 14px 20px;
+  background-color: #8f2e1d;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.submit-button:hover {
+  background-color: #7d2819;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 /* Seção Como Funciona */
@@ -999,10 +1054,14 @@
   z-index: 1000;
   transition: all 0.3s ease;
   text-decoration: none;
+  font-size: 30px;
 }
 
 .whatsapp-button i {
   font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .whatsapp-button:hover {
