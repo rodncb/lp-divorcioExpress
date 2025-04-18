@@ -283,8 +283,9 @@
 
 .radio-group {
   display: flex;
-  gap: 30px;
-  margin: 10px 0;
+  gap: 50px;
+  margin: 15px 0;
+  align-items: center;
 }
 
 .radio-group label {
@@ -292,13 +293,14 @@
   align-items: center;
   cursor: pointer;
   font-weight: 500;
+  font-size: 1.1rem;
 }
 
 .radio-group input {
-  margin-right: 8px;
+  margin-right: 10px;
   cursor: pointer;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
 }
 
 .form-group {
@@ -372,6 +374,8 @@
 .terms-checkbox {
   margin-top: 25px;
   margin-bottom: 25px;
+  display: flex;
+  align-items: center;
 }
 
 .terms-checkbox label {
@@ -379,13 +383,14 @@
   align-items: center;
   cursor: pointer;
   font-weight: normal;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .terms-checkbox input {
-  margin-right: 8px;
-  width: 18px;
-  height: 18px;
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
 }
 
 .form-note {

@@ -36,59 +36,31 @@ function MultiStepForm({ initialData, onSubmit }) {
         // Preparar os dados completos no formato que o RD Station espera
         const rdStationData = new FormData();
 
+        // ID do formulário RD Station (obrigatório)
+        rdStationData.append("token_rdstation", "formsite1-d4934bf9dcfb0061bd30");
+        rdStationData.append("identificador", "form-completo-divorcio");
+        
         // Dados básicos do formulário inicial
         rdStationData.append("name", formData.name || initialData.name || "");
-        rdStationData.append(
-          "email",
-          formData.email || initialData.email || ""
-        );
-        rdStationData.append(
-          "cf_telefone",
-          formData.phone || initialData.phone || ""
-        );
-        rdStationData.append(
-          "cf_estado",
-          formData.state || initialData.state || ""
-        );
+        rdStationData.append("email", formData.email || initialData.email || "");
+        rdStationData.append("cf_telefone", formData.phone || initialData.phone || "");
+        rdStationData.append("cf_estado", formData.state || initialData.state || "");
+        rdStationData.append("cf_acordo_conjuge", initialData.hasAgreement || "");
 
         // Dados do formulário detalhado
-        rdStationData.append(
-          "cf_data_casamento",
-          formData.marriageInfo?.date || ""
-        );
-        rdStationData.append(
-          "cf_local_casamento",
-          formData.marriageInfo?.location || ""
-        );
-        rdStationData.append(
-          "cf_numero_filhos",
-          formData.childrenInfo?.numChildren || ""
-        );
-        rdStationData.append(
-          "cf_filhos_necessidades_especiais",
-          formData.childrenInfo?.specialNeeds || ""
-        );
-        rdStationData.append(
-          "cf_possui_propriedades",
-          formData.propertyDebtInfo?.hasProperty || ""
-        );
-        rdStationData.append(
-          "cf_possui_dividas",
-          formData.propertyDebtInfo?.hasDebt || ""
-        );
-        rdStationData.append(
-          "cf_outras_rendas",
-          formData.otherIncomeInfo?.details || ""
-        );
+        rdStationData.append("cf_data_casamento", formData.marriageInfo?.date || "");
+        rdStationData.append("cf_local_casamento", formData.marriageInfo?.location || "");
+        rdStationData.append("cf_numero_filhos", formData.childrenInfo?.numChildren || "");
+        rdStationData.append("cf_filhos_necessidades_especiais", formData.childrenInfo?.specialNeeds || "");
+        rdStationData.append("cf_possui_propriedades", formData.propertyDebtInfo?.hasProperty || "");
+        rdStationData.append("cf_possui_dividas", formData.propertyDebtInfo?.hasDebt || "");
+        rdStationData.append("cf_outras_rendas", formData.otherIncomeInfo?.details || "");
 
         // Campo para identificar que é o formulário completo
         rdStationData.append("cf_formulario_completo", "sim");
 
         return rdStationData;
       };
-
-      // ID do formulário no RD Station
-      const formId = "formsite1-d4934bf9dcfb0061bd30";
 
       // URL para envio dos dados ao RD Station
       const url = `https://app.rdstation.com.br/api/1.3/conversions`;
@@ -101,14 +73,9 @@ function MultiStepForm({ initialData, onSubmit }) {
       })
         .then((response) => {
           if (response.ok) {
-            console.log(
-              "Dados completos enviados com sucesso para o RD Station!"
-            );
+            console.log("Dados completos enviados com sucesso para o RD Station!");
           } else {
-            console.error(
-              "Erro ao enviar dados completos para o RD Station:",
-              response.statusText
-            );
+            console.error("Erro ao enviar dados completos para o RD Station:", response.statusText);
           }
 
           // Independente do resultado, mostramos a tela de agradecimento

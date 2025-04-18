@@ -34,6 +34,12 @@ function App() {
       const convertToRDStationData = () => {
         // Preparar os dados no formato que o RD Station espera
         const rdStationData = new FormData();
+        
+        // ID do formulário no RD Station (obrigatório)
+        rdStationData.append("token_rdstation", "formsite1-d4934bf9dcfb0061bd30");
+        rdStationData.append("identificador", "form-elegibilidade-divorcio");
+        
+        // Dados do usuário
         rdStationData.append("name", formState.name);
         rdStationData.append("email", formState.email);
         rdStationData.append("cf_telefone", formState.phone);
@@ -42,9 +48,6 @@ function App() {
 
         return rdStationData;
       };
-
-      // ID do formulário no RD Station
-      const formId = "formsite1-d4934bf9dcfb0061bd30";
 
       // URL para envio dos dados ao RD Station
       const url = `https://app.rdstation.com.br/api/1.3/conversions`;
