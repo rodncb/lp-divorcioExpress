@@ -1,334 +1,527 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import "./MultiStepForm.css";
+import { supabase } from "./supabaseClient";
+import { processDataToRdStation } from "./rdStationService";
 
-function MultiStepForm({ initialData, onSubmit }) {
-  const [step, setStep] = useState(1);
+const MultiStepForm = ({ initialData, onSubmit, isSubmitting, error }) => {
+  // Estado para controlar a etapa atual do formulário
+  const [currentStep, setCurrentStep] = useState(1);
+  // Timer para redirecionamento
+  const [redirectTimer, setRedirectTimer] = useState(10);
+
+  // Estado para armazenar todos os dados do formulário
   const [formData, setFormData] = useState({
+    // Dados iniciais do primeiro formulário
     ...initialData,
-    marriageInfo: {},
-    childrenInfo: {},
-    propertyDebtInfo: {},
-    otherIncomeInfo: {},
-  });
-  const [submitted, setSubmitted] = useState(false);
 
-  const handleChange = (section, field, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      [section]: {
-        ...prev[section],
-        [field]: value,
-      },
-    }));
+    // Passo 1 - Casamento
+    marriageDate: "",
+    marriageLocation: "",
+
+    // Passo 2 - Crianças
+    hasChildren: "nao",
+    childrenCount: "",
+    childWithSpecialNeeds: "nao",
+
+    // Passo 3 - Propriedade e Dívida
+    hasProperties: "nao",
+    propertiesDescription: "",
+    hasDebts: "nao",
+    debtsDescription: "",
+
+    // Passo 4 - Outras Rendas
+    otherIncomesDescription: "",
+
+    // Termos e condições
+    agreeFinalTerms: false,
+  });
+
+  // Estados adicionais
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [generatedId, setGeneratedId] = useState("");
+  const [validationErrors, setValidationErrors] = useState({});
+  const [localSubmitError, setLocalSubmitError] = useState(null);
+
+  // Função para lidar com as mudanças nos campos de entrada
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
   };
 
-  const nextStep = () => setStep((prev) => prev + 1);
-  const prevStep = () => setStep((prev) => prev - 1);
-  const returnToHome = () => window.location.reload();
+  // Validação de campos por etapa
+  const validateStep = (step) => {
+    const errors = {};
 
-  const handleFinalSubmit = (e) => {
-    e.preventDefault();
-    console.log("Dados completos para enviar:", formData);
+    if (step === 1) {
+      if (!formData.marriageDate)
+        errors.marriageDate = "Data do casamento é obrigatória";
+      if (!formData.marriageLocation)
+        errors.marriageLocation = "Local do casamento é obrigatório";
+    } else if (step === 2) {
+      if (formData.hasChildren === "sim" && !formData.childrenCount)
+        errors.childrenCount = "Informe a quantidade de filhos";
+    } else if (step === 3) {
+      // Validação opcional para etapa 3
+    }
 
-    // Envio para o RD Station
-    try {
-      // Preparar os dados completos no formato que o RD Station espera
-      const rdStationData = {
-        // Token de acesso ao formulário (obrigatório)
-        token_rdstation: "formsite1-d4934bf9dcfb0061bd30",
-        identificador: "form-completo-divorcio",
-        
-        // Dados básicos do formulário inicial
-        name: formData.name || initialData.name || "",
-        email: formData.email || initialData.email || "",
-        cf_telefone: formData.phone || initialData.phone || "",
-        cf_estado: formData.state || initialData.state || "",
-        cf_acordo_conjuge: initialData.hasAgreement || "",
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
-        // Dados do formulário detalhado
-        cf_data_casamento: formData.marriageInfo?.date || "",
-        cf_local_casamento: formData.marriageInfo?.location || "",
-        cf_numero_filhos: formData.childrenInfo?.numChildren || "",
-        cf_filhos_necessidades_especiais: formData.childrenInfo?.specialNeeds || "",
-        cf_possui_propriedades: formData.propertyDebtInfo?.hasProperty || "",
-        cf_possui_dividas: formData.propertyDebtInfo?.hasDebt || "",
-        cf_outras_rendas: formData.otherIncomeInfo?.details || "",
-
-        // Campo para identificar que é o formulário completo
-        cf_formulario_completo: "sim"
-      };
-
-      // URL para envio dos dados ao RD Station
-      const url = `https://app.rdstation.com.br/api/1.3/conversions`;
-
-      // Envio dos dados usando fetch API
-      fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        body: JSON.stringify(rdStationData),
-        mode: "cors",
-      })
-        .then((response) => {
-          if (response.ok) {
-            console.log("Dados completos enviados com sucesso para o RD Station!");
-          } else {
-            return response.text().then(text => {
-              console.error("Erro ao enviar dados completos para o RD Station:", text);
-            });
-          }
-
-          // Independente do resultado, mostramos a tela de agradecimento
-          setSubmitted(true);
-          if (onSubmit) onSubmit(formData);
-        })
-        .catch((error) => {
-          console.error("Falha na comunicação com o RD Station:", error);
-          // Mesmo com erro, mostramos a tela de agradecimento
-          setSubmitted(true);
-          if (onSubmit) onSubmit(formData);
-        });
-    } catch (error) {
-      console.error("Erro ao enviar dados para o RD Station:", error);
-      // Em caso de erro, mostramos a tela de agradecimento
-      setSubmitted(true);
-      if (onSubmit) onSubmit(formData);
+  // Função para avançar para a próxima etapa
+  const nextStep = () => {
+    if (validateStep(currentStep)) {
+      setCurrentStep(currentStep + 1);
+      window.scrollTo(0, 0);
     }
   };
 
-  // Se o formulário foi enviado, exibir página de agradecimento
-  if (submitted) {
-    return (
-      <div className="multi-step-container thank-you-container">
-        <div className="thank-you-content">
-          <h1 className="thank-you-title">Obrigado!</h1>
-          <p className="thank-you-message">
-            Seus dados foram recebidos com sucesso!
-          </p>
-          <p className="thank-you-detail">
-            Um de nossos advogados especialistas entrará em contato em breve
-            para ajudar com o seu processo de divórcio.
-          </p>
+  // Função para retornar à etapa anterior
+  const prevStep = () => {
+    setCurrentStep(currentStep - 1);
+    window.scrollTo(0, 0);
+  };
 
-          <div className="thank-you-actions">
-            <button onClick={returnToHome} className="return-button">
-              Voltar à página inicial
-            </button>
+  // Gera um ID de caso aleatório
+  const generateCaseId = () => {
+    const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let result = "";
+    for (let i = 0; i < 10; i++) {
+      // Ajustado para criar IDs como no exemplo: 9BZF6281617474
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+  };
+
+  // Função para enviar o formulário final
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    setLocalSubmitError(null);
+
+    if (!formData.agreeFinalTerms && currentStep !== 5) {
+      setLocalSubmitError(
+        "Você precisa concordar com os termos para prosseguir."
+      );
+      return;
+    }
+
+    // Se estamos na etapa 4, enviar dados e mostrar a confirmação final
+    if (currentStep === 4) {
+      try {
+        // Gerar o ID do caso
+        const caseId = generateCaseId();
+        setGeneratedId(caseId);
+
+        // Criar um objeto JSON com todos os dados do formulário
+        const allFormData = {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          state: formData.state || "",
+          hasAgreement: formData.hasAgreement,
+          marriageDate: formData.marriageDate,
+          marriageLocation: formData.marriageLocation,
+          hasChildren: formData.hasChildren,
+          childrenCount: formData.childrenCount,
+          childWithSpecialNeeds: formData.childWithSpecialNeeds,
+          hasProperties: formData.hasProperties,
+          propertiesDescription: formData.propertiesDescription,
+          hasDebts: formData.hasDebts,
+          debtsDescription: formData.debtsDescription,
+          otherIncomesDescription: formData.otherIncomesDescription,
+          generatedId: caseId,
+        };
+
+        // Preparar dados para envio conforme a estrutura correta da tabela no Supabase
+        const submissionData = {
+          // Campos que aparecem na tabela conforme a imagem compartilhada
+          id: caseId, // Usando o ID gerado como ID do registro
+          marriagedate: formData.marriageDate || null,
+          marriagelocation: formData.marriageLocation || "",
+          city: formData.state || "", // Usando o estado como cidade  
+        };
+
+        console.log("Enviando dados para o Supabase com os campos corretos:", submissionData);
+
+        // Salvar dados no Supabase
+        const { data, error } = await supabase
+          .from("full_submissions")
+          .insert([submissionData]);
+
+        if (error) {
+          console.error("Erro Supabase:", error);
+          throw error;
+        }
+
+        console.log("Dados completos salvos com sucesso no Supabase:", data);
+
+        // 2. Enviar dados para o RD Station CRM
+        try {
+          const rdResponse = await processDataToRdStation(
+            allFormData, // Enviamos todos os dados originais para o RD Station
+            "completo"
+          );
+          console.log(
+            "Dados completos enviados com sucesso para o RD Station CRM:",
+            rdResponse
+          );
+        } catch (rdError) {
+          console.error("Erro ao enviar dados para RD Station CRM:", rdError);
+          // Não bloquear o fluxo principal se apenas a integração com RD CRM falhar
+        }
+
+        // 3. Mostrar mensagem de sucesso e chamar callback onSubmit
+        setSubmitSuccess(true);
+        onSubmit(allFormData);
+
+        // Ir para a tela de confirmação
+        setCurrentStep(5);
+        window.scrollTo(0, 0);
+      } catch (error) {
+        console.error("Erro ao enviar formulário completo:", error);
+        setLocalSubmitError(
+          "Ocorreu um erro ao enviar o formulário. Por favor, tente novamente."
+        );
+      }
+      return;
+    }
+  };
+
+  // Efeito para redirecionamento após tempo determinado quando estiver na tela de confirmação
+  useEffect(() => {
+    let timer;
+    if (currentStep === 5) {
+      timer = setInterval(() => {
+        setRedirectTimer((prev) => {
+          if (prev <= 1) {
+            clearInterval(timer);
+            // Redirecionamento para a home após o timer acabar
+            window.location.href = "/";
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [currentStep]);
+
+  // Estado na mensagem de sucesso
+  const estadoExibicao = formData.state
+    ? ["SP", "RJ", "MG"].includes(formData.state)
+      ? formData.state
+      : "seu estado"
+    : "SP";
+
+  // Renderiza o componente com base na etapa atual
+  return (
+    <div className="multi-step-form">
+      {/* Indicador de progresso - sempre visível */}
+      <div className="progress-bar">
+        <div className="progress-steps">
+          <div className={`step ${currentStep >= 1 ? "active" : ""}`}>1</div>
+          <div className="step-line"></div>
+          <div className={`step ${currentStep >= 2 ? "active" : ""}`}>2</div>
+          <div className="step-line"></div>
+          <div className={`step ${currentStep >= 3 ? "active" : ""}`}>3</div>
+          <div className="step-line"></div>
+          <div className={`step ${currentStep >= 4 ? "active" : ""}`}>4</div>
+        </div>
+        <div className="progress-title">
+          <div className={`step-title ${currentStep >= 1 ? "active" : ""}`}>
+            Passo 1 - Casamento
+          </div>
+          <div className={`step-title ${currentStep >= 2 ? "active" : ""}`}>
+            Passo 2 - Crianças
+          </div>
+          <div className={`step-title ${currentStep >= 3 ? "active" : ""}`}>
+            Passo 3 - Propriedade e Dívida
+          </div>
+          <div className={`step-title ${currentStep >= 4 ? "active" : ""}`}>
+            Passo 4 - Outras Rendas
+          </div>
+        </div>
+      </div>
+
+      {/* Tela de confirmação/sucesso */}
+      {currentStep === 5 ? (
+        <div className="success-message">
+          <h2>Parabéns!</h2>
+          <h3>Você está qualificado para divórcio em {estadoExibicao}</h3>
+          <p>Seu caso de divórcio online está registrado. {formData.name}</p>
+          <p>Seu ID de Caso: {generatedId}</p>
+
+          <div className="satisfaction-guarantee">
+            <h2>100%</h2>
+            <p>Satisfação Garantida</p>
+          </div>
+
+          <div className="contact-message">
+            <p>
+              Nossa equipe entrará em contato com você em breve para os próximos
+              passos.
+            </p>
+            <p>Se preferir, entre em contato imediatamente pelo WhatsApp:</p>
+
             <a
               href="https://wa.me/5511916801800"
-              className="whatsapp-contact-button"
+              className="whatsapp-button"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Falar agora pelo WhatsApp
+              <i className="fab fa-whatsapp"></i> Fale com um advogado agora
             </a>
           </div>
-        </div>
-      </div>
-    );
-  }
 
-  return (
-    <div className="multi-step-container">
-      <div className="progress-header">
-        <div className="logo-container">
-          <span className="logo-text">Divórcio Express</span>
+          <div className="redirect-timer">
+            <p>
+              Você será redirecionado para a página inicial em{" "}
+              <span>{redirectTimer}</span> segundos...
+            </p>
+          </div>
         </div>
-        <div className="multi-step-progress">
-          <div
-            className={`step-indicator ${step >= 1 ? "completed" : "inactive"}`}
+      ) : (
+        <div className="form-container">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (currentStep < 4) {
+                nextStep();
+              } else {
+                handleSubmit(e);
+              }
+            }}
           >
-            <span className="step-number">1</span>
-            <span className="step-text">Passo 1 - Casamento</span>
-          </div>
-          <div
-            className={`step-indicator ${step >= 2 ? "completed" : "inactive"}`}
-          >
-            <span className="step-number">2</span>
-            <span className="step-text">Passo 2 - Crianças</span>
-          </div>
-          <div
-            className={`step-indicator ${step >= 3 ? "completed" : "inactive"}`}
-          >
-            <span className="step-number">3</span>
-            <span className="step-text">Passo 3 - Propriedade e Dívida</span>
-          </div>
-          <div
-            className={`step-indicator ${step >= 4 ? "completed" : "inactive"}`}
-          >
-            <span className="step-number">4</span>
-            <span className="step-text">Passo 4 - Outras Rendas</span>
-          </div>
+            {/* Etapa 1: Casamento */}
+            {currentStep === 1 && (
+              <div className="form-step">
+                <h2>Informações sobre o casamento</h2>
+
+                <div className="form-group">
+                  <label htmlFor="marriageDate">Data do casamento:</label>
+                  <input
+                    type="date"
+                    id="marriageDate"
+                    name="marriageDate"
+                    value={formData.marriageDate}
+                    onChange={handleChange}
+                    className={validationErrors.marriageDate ? "error" : ""}
+                  />
+                  {validationErrors.marriageDate && (
+                    <span className="error-message">
+                      {validationErrors.marriageDate}
+                    </span>
+                  )}
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="marriageLocation">Local do casamento:</label>
+                  <input
+                    type="text"
+                    id="marriageLocation"
+                    name="marriageLocation"
+                    value={formData.marriageLocation}
+                    onChange={handleChange}
+                    placeholder="Ex: São Paulo/SP"
+                    className={validationErrors.marriageLocation ? "error" : ""}
+                  />
+                  {validationErrors.marriageLocation && (
+                    <span className="error-message">
+                      {validationErrors.marriageLocation}
+                    </span>
+                  )}
+                </div>
+
+                <div className="form-navigation">
+                  <button type="button" className="next-btn" onClick={nextStep}>
+                    Próximo
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Etapa 2: Crianças */}
+            {currentStep === 2 && (
+              <div className="form-step">
+                <h2>Informações sobre crianças</h2>
+
+                <div className="form-group">
+                  <label htmlFor="childrenCount">
+                    Quantos filhos menores de 18 anos?
+                  </label>
+                  <input
+                    type="number"
+                    id="childrenCount"
+                    name="childrenCount"
+                    value={formData.childrenCount}
+                    onChange={handleChange}
+                    min="0"
+                    className={validationErrors.childrenCount ? "error" : ""}
+                  />
+                  {validationErrors.childrenCount && (
+                    <span className="error-message">
+                      {validationErrors.childrenCount}
+                    </span>
+                  )}
+                </div>
+
+                <div className="form-group">
+                  <label>Alguma criança tem necessidades especiais?</label>
+                  <select
+                    name="childWithSpecialNeeds"
+                    value={formData.childWithSpecialNeeds}
+                    onChange={handleChange}
+                  >
+                    <option value="nao">Não</option>
+                    <option value="sim">Sim</option>
+                  </select>
+                </div>
+
+                <div className="form-navigation">
+                  <button type="button" className="prev-btn" onClick={prevStep}>
+                    Voltar
+                  </button>
+                  <button type="button" className="next-btn" onClick={nextStep}>
+                    Próximo
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Etapa 3: Propriedade e Dívida */}
+            {currentStep === 3 && (
+              <div className="form-step">
+                <h2>Propriedade e Dívida</h2>
+
+                <div className="form-group">
+                  <label>Possuem propriedades para dividir?</label>
+                  <select
+                    name="hasProperties"
+                    value={formData.hasProperties}
+                    onChange={handleChange}
+                  >
+                    <option value="nao">Não</option>
+                    <option value="sim">Sim</option>
+                  </select>
+                </div>
+
+                {formData.hasProperties === "sim" && (
+                  <div className="form-group">
+                    <label htmlFor="propertiesDescription">
+                      Descreva as propriedades:
+                    </label>
+                    <textarea
+                      id="propertiesDescription"
+                      name="propertiesDescription"
+                      value={formData.propertiesDescription}
+                      onChange={handleChange}
+                      rows="3"
+                    ></textarea>
+                  </div>
+                )}
+
+                <div className="form-group">
+                  <label>Possuem dívidas para dividir?</label>
+                  <select
+                    name="hasDebts"
+                    value={formData.hasDebts}
+                    onChange={handleChange}
+                  >
+                    <option value="nao">Não</option>
+                    <option value="sim">Sim</option>
+                  </select>
+                </div>
+
+                {formData.hasDebts === "sim" && (
+                  <div className="form-group">
+                    <label htmlFor="debtsDescription">
+                      Descreva as dívidas:
+                    </label>
+                    <textarea
+                      id="debtsDescription"
+                      name="debtsDescription"
+                      value={formData.debtsDescription}
+                      onChange={handleChange}
+                      rows="3"
+                    ></textarea>
+                  </div>
+                )}
+
+                <div className="form-navigation">
+                  <button type="button" className="prev-btn" onClick={prevStep}>
+                    Voltar
+                  </button>
+                  <button type="button" className="next-btn" onClick={nextStep}>
+                    Próximo
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Etapa 4: Outras Rendas */}
+            {currentStep === 4 && (
+              <div className="form-step">
+                <h2>Outras Fontes de Renda</h2>
+
+                <div className="form-group">
+                  <label htmlFor="otherIncomesDescription">
+                    Alguma outra fonte de renda relevante?
+                  </label>
+                  <textarea
+                    id="otherIncomesDescription"
+                    name="otherIncomesDescription"
+                    value={formData.otherIncomesDescription}
+                    onChange={handleChange}
+                    rows="4"
+                  ></textarea>
+                </div>
+
+                <div className="form-group terms-checkbox">
+                  <label>
+                    <input
+                      type="checkbox"
+                      name="agreeFinalTerms"
+                      checked={formData.agreeFinalTerms}
+                      onChange={handleChange}
+                      required
+                    />
+                    Declaro que todas as informações fornecidas são verdadeiras
+                    e autorizo o contato da equipe Divórcio Express para dar
+                    seguimento ao meu processo.
+                  </label>
+                </div>
+
+                {localSubmitError && (
+                  <div className="error-message">{localSubmitError}</div>
+                )}
+                {error && <div className="error-message">{error}</div>}
+
+                <div className="form-navigation">
+                  <button type="button" className="prev-btn" onClick={prevStep}>
+                    Voltar
+                  </button>
+                  <button
+                    type="button"
+                    className="submit-button"
+                    onClick={handleSubmit}
+                    disabled={!formData.agreeFinalTerms}
+                  >
+                    Enviar
+                  </button>
+                </div>
+              </div>
+            )}
+          </form>
         </div>
-      </div>
-
-      <div className="congratulations-message">
-        <h2>Parabéns!</h2>
-        <h3>
-          Você está qualificado para divórcio em{" "}
-          {initialData.state || "seu estado"}
-        </h3>
-        <p>
-          Seu caso de divórcio online está registrado.{" "}
-          {initialData.name || "Usuário"}.
-        </p>
-        <p>
-          Seu ID de Caso:{" "}
-          {Math.random().toString(36).substring(2, 6).toUpperCase() +
-            Math.floor(Math.random() * 10000000000)}
-        </p>
-        <div className="satisfaction-badge">
-          <span className="percentage">100%</span>
-          <span className="guarantee">Satisfação Garantida</span>
-        </div>
-      </div>
-
-      <form onSubmit={handleFinalSubmit} className="form-container">
-        {step === 1 && (
-          <div>
-            <h2>Informações sobre o casamento</h2>
-            <div className="form-group">
-              <label>Data do casamento:</label>
-              <input
-                type="date"
-                value={formData.marriageInfo.date || ""}
-                onChange={(e) =>
-                  handleChange("marriageInfo", "date", e.target.value)
-                }
-              />
-            </div>
-            <div className="form-group">
-              <label>Local do casamento:</label>
-              <input
-                type="text"
-                value={formData.marriageInfo.location || ""}
-                onChange={(e) =>
-                  handleChange("marriageInfo", "location", e.target.value)
-                }
-              />
-            </div>
-          </div>
-        )}
-
-        {step === 2 && (
-          <div>
-            <h2>Informações sobre crianças</h2>
-            <div className="form-group">
-              <label>Quantos filhos menores de 18 anos?</label>
-              <input
-                type="number"
-                value={formData.childrenInfo.numChildren || ""}
-                onChange={(e) =>
-                  handleChange("childrenInfo", "numChildren", e.target.value)
-                }
-              />
-            </div>
-            <div className="form-group">
-              <label>Alguma criança tem necessidades especiais?</label>
-              <select
-                value={formData.childrenInfo.specialNeeds || ""}
-                onChange={(e) =>
-                  handleChange("childrenInfo", "specialNeeds", e.target.value)
-                }
-              >
-                <option value="">Selecione</option>
-                <option value="sim">Sim</option>
-                <option value="nao">Não</option>
-              </select>
-            </div>
-          </div>
-        )}
-
-        {step === 3 && (
-          <div>
-            <h2>Propriedade e Dívida</h2>
-            <div className="form-group">
-              <label>Possuem propriedades para dividir?</label>
-              <select
-                value={formData.propertyDebtInfo.hasProperty || ""}
-                onChange={(e) =>
-                  handleChange(
-                    "propertyDebtInfo",
-                    "hasProperty",
-                    e.target.value
-                  )
-                }
-              >
-                <option value="">Selecione</option>
-                <option value="sim">Sim</option>
-                <option value="nao">Não</option>
-              </select>
-            </div>
-            <div className="form-group">
-              <label>Possuem dívidas para dividir?</label>
-              <select
-                value={formData.propertyDebtInfo.hasDebt || ""}
-                onChange={(e) =>
-                  handleChange("propertyDebtInfo", "hasDebt", e.target.value)
-                }
-              >
-                <option value="">Selecione</option>
-                <option value="sim">Sim</option>
-                <option value="nao">Não</option>
-              </select>
-            </div>
-          </div>
-        )}
-
-        {step === 4 && (
-          <div>
-            <h2>Outras Fontes de Renda</h2>
-            <div className="form-group">
-              <label>Alguma outra fonte de renda relevante?</label>
-              <textarea
-                value={formData.otherIncomeInfo.details || ""}
-                onChange={(e) =>
-                  handleChange("otherIncomeInfo", "details", e.target.value)
-                }
-              />
-            </div>
-          </div>
-        )}
-
-        <div className="form-buttons">
-          {step > 1 && (
-            <button
-              type="button"
-              onClick={prevStep}
-              className="form-button back-button"
-            >
-              Voltar
-            </button>
-          )}
-          {step < 4 && (
-            <button
-              type="button"
-              onClick={nextStep}
-              className="form-button next-button"
-            >
-              Próximo
-            </button>
-          )}
-          {step === 4 && (
-            <div className="final-buttons">
-              <button
-                type="button"
-                onClick={prevStep}
-                className="form-button back-button"
-              >
-                Voltar
-              </button>
-              <button type="submit" className="form-button submit-button">
-                Enviar
-              </button>
-            </div>
-          )}
-        </div>
-      </form>
+      )}
     </div>
   );
-}
+};
 
 export default MultiStepForm;

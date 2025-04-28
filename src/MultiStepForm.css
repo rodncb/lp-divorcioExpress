@@ -1,443 +1,344 @@
-/* Estilos para o MultiStepForm */
+/* Estilos para o MultiStepForm - Restaurados do site original */
 
-.multi-step-section {
-  background-color: #fff;
-  padding: 0;
-  min-height: 100vh;
-  color: #333;
-  font-family: "Inter", sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
-.multi-step-container {
-  max-width: 800px;
+.multi-step-form {
+  width: 100%;
+  max-width: 960px;
   margin: 0 auto;
   padding: 20px;
-  background-color: white;
+  background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.progress-header {
-  margin-bottom: 30px;
+/* Barra de progresso - Estilo original do divorcioexpress.com.br */
+.multi-step-form .progress-bar {
+  margin-bottom: 40px;
+  width: 100%;
 }
 
-.logo-container {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.logo-text {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #8f2e1d;
-}
-
-.multi-step-progress {
+.multi-step-form .progress-steps {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 20px;
   position: relative;
 }
 
-.step-indicator {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  z-index: 1;
-  flex: 1;
-}
-
-.step-number {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: #e0e0e0;
-  color: #666;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  margin-bottom: 8px;
-  transition: all 0.3s ease;
-}
-
-.step-text {
-  font-size: 0.9rem;
-  color: #666;
-  text-align: center;
-  transition: all 0.3s ease;
-}
-
-.step-indicator.completed .step-number {
-  background-color: #8f2e1d;
-  color: white;
-}
-
-.step-indicator.active .step-number {
-  background-color: #8f2e1d;
-  color: white;
-  transform: scale(1.1);
-}
-
-.step-indicator.completed .step-text,
-.step-indicator.active .step-text {
-  color: #8f2e1d;
-  font-weight: 600;
-}
-
-.multi-step-progress::before {
+.multi-step-form .progress-steps::before {
   content: "";
   position: absolute;
-  top: 15px;
+  top: 50%;
   left: 0;
   right: 0;
-  height: 2px;
+  height: 3px;
   background-color: #e0e0e0;
-  z-index: 0;
+  transform: translateY(-50%);
+  z-index: 1;
 }
 
-.congratulations-message {
-  text-align: center;
-  margin-bottom: 30px;
-  padding: 20px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-}
-
-.congratulations-message h2 {
-  color: #8f2e1d;
-  margin-bottom: 10px;
-}
-
-.congratulations-message h3 {
-  color: #333;
-  margin-bottom: 15px;
-}
-
-.satisfaction-badge {
-  display: inline-flex;
-  flex-direction: column;
+.multi-step-form .step {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  display: flex;
+  justify-content: center;
   align-items: center;
-  padding: 15px 25px;
-  background-color: #8f2e1d;
-  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  color: #ffffff;
+  position: relative;
+  z-index: 2;
+}
+
+.multi-step-form .step.active {
+  background-color: #a13529;
+}
+
+.multi-step-form .step-line {
+  flex-grow: 1;
+  height: 3px;
+  background-color: #e0e0e0;
+  position: relative;
+  z-index: 1;
+}
+
+.multi-step-form .progress-title {
+  /* display: grid; // Revertendo Grid */
+  /* grid-template-columns: repeat(4, 1fr); // Revertendo Grid */
+  display: flex; /* Mantendo flex para referência, mas títulos serão absolutos */
+  justify-content: space-between;
+  margin-top: 10px;
+  width: 100%;
+  position: relative; /* Necessário para posicionamento absoluto dos filhos */
+  height: 30px; /* Garante altura para os elementos absolutos */
+  /* gap: 5px; // Removido */
+}
+
+.multi-step-form .step-title {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+  font-weight: normal;
+  position: absolute; /* Posicionamento absoluto */
+  width: auto; /* Largura baseada no conteúdo */
+  transform: translateX(-50%); /* Centraliza o elemento na sua posição 'left' */
+}
+
+/* Posicionamento específico baseado na distribuição space-between dos círculos */
+.multi-step-form .step-title:nth-child(1) {
+  left: 5%; /* Ajuste fino pode ser necessário */
+}
+.multi-step-form .step-title:nth-child(2) {
+  left: 35%; /* Ajuste fino pode ser necessário */
+}
+.multi-step-form .step-title:nth-child(3) {
+  left: 65%; /* Ajuste fino pode ser necessário */
+}
+.multi-step-form .step-title:nth-child(4) {
+  left: 95%; /* Ajuste fino pode ser necessário */
+}
+
+.multi-step-form .step-title.active {
+  color: #a13529;
+  font-weight: bold;
+}
+
+/* Formulário - Estilo original do divorcioexpress.com.br */
+.multi-step-form .form-container {
+  background-color: #fff !important;
   border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
   margin-top: 20px;
 }
 
-.percentage {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 5px;
+.multi-step-form .form-step {
+  animation: fadeIn 0.5s ease;
 }
 
-.guarantee {
-  font-size: 0.9rem;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.form-container {
-  max-width: 600px;
-  margin: 0 auto;
-  background-color: #fff;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-}
-
-.form-container h2 {
-  font-size: 1.5rem;
-  color: #8f2e1d;
-  margin-bottom: 25px;
+.multi-step-form .form-step h2 {
+  color: #a13529;
+  margin-bottom: 30px;
+  font-size: 24px;
   text-align: center;
-  font-family: "Raleway", sans-serif;
-  font-weight: 600;
 }
 
-.form-group {
-  margin-bottom: 20px;
+.multi-step-form .form-instruction {
+  margin-bottom: 25px;
+  color: #555;
+  text-align: center;
+  font-size: 16px;
 }
 
-.form-group label {
+/* Campos do formulário */
+.multi-step-form .form-group {
+  margin-bottom: 25px;
+}
+
+.multi-step-form .form-group label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   font-weight: 600;
-  color: #45373e;
-  font-size: 1rem;
-  font-family: "Noto Sans", sans-serif;
+  color: #333;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
+.multi-step-form .form-group input,
+.multi-step-form .form-group select,
+.multi-step-form .form-group textarea {
   width: 100%;
   padding: 12px;
   border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
-  background-color: white;
-  transition: border-color 0.3s, box-shadow 0.3s;
-  font-family: "Noto Sans", sans-serif;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #f7f7f7;
 }
 
-.form-group input[type="date"] {
-  appearance: none;
-  padding-right: 40px;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
+.multi-step-form .form-group input:focus,
+.multi-step-form .form-group select:focus,
+.multi-step-form .form-group textarea:focus {
   outline: none;
-  border-color: #8f2e1d;
-  box-shadow: 0 0 0 2px rgba(143, 46, 29, 0.2);
+  border-color: #a13529;
+  box-shadow: 0 0 0 2px rgba(161, 53, 41, 0.2);
 }
 
-.form-group textarea {
-  min-height: 120px;
-  resize: vertical;
+.multi-step-form .form-group input.error,
+.multi-step-form .form-group select.error {
+  border-color: #e74c3c;
 }
 
-.form-group select {
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238F2E1D' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 16px;
-  padding-right: 40px;
+.multi-step-form .error-message {
+  color: #e74c3c;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
-.form-buttons {
+/* Botões de navegação */
+.multi-step-form .form-navigation {
   display: flex;
   justify-content: space-between;
   margin-top: 30px;
-  gap: 15px;
 }
 
-.form-button {
+.multi-step-form .prev-btn,
+.multi-step-form .next-btn,
+.multi-step-form .submit-button {
   padding: 12px 24px;
   border: none;
-  border-radius: 30px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  min-width: 120px;
-  text-align: center;
-  font-family: "Noto Sans", sans-serif;
-}
-
-.back-button {
-  background-color: #f5f5f5;
-  color: #333;
-  border: 1px solid #ddd;
-}
-
-.back-button:hover {
-  background-color: #eaeaea;
-  transform: translateY(-2px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.next-button,
-.submit-button {
-  background-color: #8f2e1d;
-  color: white;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.next-button:hover,
-.submit-button:hover {
-  background-color: #7d2819;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-}
-
-.final-buttons {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-
-@media (max-width: 768px) {
-  .multi-step-progress {
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-
-  .step-indicator {
-    flex: 0 0 50%;
-  }
-
-  .step-text {
-    font-size: 0.8rem;
-  }
-
-  .form-buttons {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .form-button {
-    width: 100%;
-  }
-
-  .form-container {
-    padding: 20px 15px;
-  }
-  
-  .form-container h2 {
-    font-size: 1.3rem;
-  }
-  
-  .form-group label {
-    font-size: 0.95rem;
-  }
-  
-  .final-buttons {
-    flex-direction: column;
-    gap: 10px;
-  }
-}
-
-/* Adicionando ao final do arquivo CSS existente */
-
-/* Estilos para os botões de voltar */
-.back-button {
-  background-color: #f5f5f5;
-  color: #333;
-  border: 1px solid #ddd;
-}
-
-.back-button:hover {
-  background-color: #eaeaea;
-}
-
-.next-button,
-.submit-button {
-  background-color: #8f2e1d;
-  color: white;
-}
-
-.next-button:hover,
-.submit-button:hover {
-  background-color: #7d2819;
-}
-
-.final-buttons {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-
-/* Estilos para a página de agradecimento */
-.thank-you-container {
-  min-height: 70vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: #f7f7f7;
-  padding: 30px;
-  border-radius: 8px;
-}
-
-.thank-you-content {
-  text-align: center;
-  max-width: 700px;
-  padding: 40px;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.thank-you-title {
-  color: #8f2e1d;
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-  font-family: "Raleway", sans-serif;
-  font-weight: 700;
-}
-
-.thank-you-message {
-  font-size: 1.3rem;
-  color: #333;
-  margin-bottom: 15px;
-  font-family: "Noto Sans", sans-serif;
-}
-
-.thank-you-detail {
-  color: #555;
-  margin-bottom: 30px;
-  font-size: 1.1rem;
-  line-height: 1.6;
-  font-family: "Noto Sans", sans-serif;
-}
-
-.thank-you-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.return-button {
-  padding: 12px 24px;
-  background-color: #f5f5f5;
-  color: #333;
-  border: 1px solid #ddd;
-  border-radius: 30px;
-  font-size: 1rem;
+  border-radius: 4px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s;
-  width: 80%;
-  max-width: 300px;
-  text-decoration: none;
-  font-family: "Noto Sans", sans-serif;
 }
 
-.return-button:hover {
-  background-color: #eaeaea;
+.multi-step-form .prev-btn {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ddd;
 }
 
-.whatsapp-contact-button {
+.multi-step-form .next-btn,
+.multi-step-form .submit-button {
+  background-color: #a13529;
+  color: white;
+  width: auto !important;
+}
+
+.multi-step-form .prev-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.multi-step-form .next-btn:hover,
+.multi-step-form .submit-button:hover {
+  background-color: #872d23;
+}
+
+/* Seção de sucesso - Estilo conforme o site original */
+.multi-step-form .success-message {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.8s ease;
+}
+
+.multi-step-form .success-message h2 {
+  color: #a13529;
+  margin-bottom: 5px;
+  font-size: 36px;
+}
+
+.multi-step-form .success-message h3 {
+  color: #3498db; /* Cor azul conforme o site original */
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.multi-step-form .success-message p {
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #555;
+}
+
+.multi-step-form .satisfaction-guarantee {
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #a13529;
+  color: white;
+  border-radius: 8px;
+  display: inline-block;
+  width: auto;
+}
+
+.multi-step-form .satisfaction-guarantee h2 {
+  color: white;
+  margin: 0;
+  font-size: 40px;
+}
+
+.multi-step-form .satisfaction-guarantee p {
+  color: white;
+  margin: 0;
+  font-size: 18px;
+}
+
+.multi-step-form .contact-message {
+  margin: 25px 0;
+}
+
+.multi-step-form .whatsapp-button {
   display: inline-block;
   background-color: #25d366;
   color: white;
   padding: 12px 24px;
-  border-radius: 30px;
-  font-size: 1.1rem;
-  font-weight: 600;
+  border-radius: 4px;
   text-decoration: none;
+  font-weight: 600;
+  margin-top: 20px;
   transition: all 0.3s;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 80%;
-  max-width: 300px;
-  text-align: center;
-  font-family: "Noto Sans", sans-serif;
+  font-size: 16px;
 }
 
-.whatsapp-contact-button:hover {
-  background-color: #20ba57;
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+.multi-step-form .whatsapp-button:hover {
+  background-color: #1da851;
 }
 
-@media (min-width: 768px) {
-  .thank-you-actions {
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
-  }
+.multi-step-form .redirect-timer {
+  margin-top: 30px;
+  padding: 15px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  font-size: 16px;
+}
 
-  .return-button,
-  .whatsapp-contact-button {
-    width: auto;
-  }
+.multi-step-form .redirect-timer span {
+  font-weight: bold;
+  color: #a13529;
+}
+
+/* Estilo específico para a caixa de seleção dos termos */
+.multi-step-form .terms-checkbox {
+  display: flex;
+  align-items: flex-start;
+}
+
+.multi-step-form .terms-checkbox label {
+  display: flex;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.multi-step-form .terms-checkbox input[type="checkbox"] {
+  width: auto;
+  margin-right: 10px;
+  margin-top: 3px; /* Ajuste fino para alinhar com a primeira linha do texto */
+  flex-shrink: 0;
+}
+
+/* Estilos específicos para a seção que contém o multi-step-form */
+.multi-step-section {
+  padding: 100px 0 60px;
+  background-color: #ffffff; /* Alterado de #e5dcc3 para branco */
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.multi-step-section .container {
+  width: 100%;
+  max-width: 1000px;
+  padding: 0 20px;
 }

@@ -1,6 +1,11 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 import MultiStepForm from "./MultiStepForm";
+import { supabase } from "./supabaseClient";
+import {
+  processDataToRdStation,
+  getAndShowRdStationIds,
+} from "./rdStationService";
 
 function App() {
   const [formState, setFormState] = useState({
@@ -8,7 +13,7 @@ function App() {
     email: "",
     phone: "",
     state: "",
-    hasChildren: "",
+    hasAgreement: "",
     agreeTerms: false,
   });
 
@@ -16,6 +21,8 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showMultiStepForm, setShowMultiStepForm] = useState(false);
   const [showTermsPopup, setShowTermsPopup] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -25,65 +32,76 @@ function App() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Formulário enviado:", formState);
+    console.log("Formulário inicial enviado:", formState);
 
-    // Aqui enviamos os dados básicos para o RD Station
+    setIsSubmitting(true);
+    setSubmitError(null);
+
     try {
-      // Preparar os dados no formato que o RD Station espera
-      const rdStationData = {
-        // Token de acesso ao formulário
-        token_rdstation: "formsite1-d4934bf9dcfb0061bd30",
-        identificador: "form-elegibilidade-divorcio",
-        
-        // Dados do usuário
-        name: formState.name,
-        email: formState.email,
-        cf_telefone: formState.phone,
-        cf_estado: formState.state,
-        cf_acordo_conjuge: formState.hasAgreement
-      };
-
-      // URL para envio dos dados ao RD Station
-      const url = `https://app.rdstation.com.br/api/1.3/conversions`;
-
-      // Envio dos dados usando fetch API com headers e body formatados corretamente
-      fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
+      // Salvar no Supabase
+      const { data, error } = await supabase.from("leads").insert([
+        {
+          name: formState.name,
+          email: formState.email,
+          phone: formState.phone,
+          state: formState.state,
+          has_agreement: formState.hasAgreement,
+          created_at: new Date().toISOString(),
+          form_type: "initial",
         },
-        body: JSON.stringify(rdStationData),
-        mode: "cors",
-      })
-        .then((response) => {
-          if (response.ok) {
-            console.log("Dados enviados com sucesso para o RD Station!");
-          } else {
-            return response.text().then(text => {
-              console.error("Erro ao enviar dados para o RD Station:", text);
-            });
-          }
-          // Independente do resultado, continuamos para o próximo passo
-          setShowMultiStepForm(true);
-        })
-        .catch((error) => {
-          console.error("Falha na comunicação com o RD Station:", error);
-          // Mesmo com erro, continuamos para o próximo passo
-          setShowMultiStepForm(true);
-        });
-    } catch (error) {
-      console.error("Erro ao enviar dados para o RD Station:", error);
-      // Em caso de erro, continuamos para o próximo passo
+      ]);
+
+      if (error) throw error;
+
+      console.log("Lead salvo com sucesso no Supabase:", data);
+
+      // Enviar para RD Station CRM
+      try {
+        const rdResponse = await processDataToRdStation(formState, "inicial");
+        console.log(
+          "Dados enviados com sucesso para o RD Station CRM:",
+          rdResponse
+        );
+      } catch (rdError) {
+        console.error("Erro ao enviar dados para RD Station CRM:", rdError);
+        // Não bloquear o fluxo principal se apenas a integração com RD CRM falhar
+      }
+
+      // Navegar para o próximo passo
       setShowMultiStepForm(true);
+    } catch (error) {
+      console.error("Erro ao processar dados:", error);
+      setSubmitError(
+        "Ocorreu um erro ao enviar o formulário. Tente novamente."
+      );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  const handleFinalSubmit = (allData) => {
-    console.log("Enviar todos os dados para processamento:", allData);
-    // Aqui você pode enviar os dados combinados para o backend ou API
+  const handleFinalSubmit = async (allData) => {
+    console.log(
+      "Dados completos recebidos do formulário multi-etapas:",
+      allData
+    );
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      // Uma vez que os dados completos já foram salvos no MultiStepForm.jsx,
+      // aqui apenas confirmamos o recebimento e podemos realizar ações adicionais se necessário
+      console.log("Processamento de dados completos finalizado com sucesso");
+    } catch (error) {
+      console.error("Erro ao processar dados completos:", error);
+      setSubmitError(
+        "Ocorreu um erro ao processar seus dados completos. Tente novamente."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const toggleQuestion = (index) => {
@@ -98,6 +116,20 @@ function App() {
     setShowTermsPopup(!showTermsPopup);
   };
 
+  // Nova função para obter IDs do RD Station
+  const handleGetRdStationIds = async () => {
+    try {
+      console.log("Buscando IDs do RD Station...");
+      await getAndShowRdStationIds();
+      alert(
+        "IDs obtidos com sucesso! Verifique o console do navegador (F12 ou Inspecionar > Console)"
+      );
+    } catch (error) {
+      console.error("Erro ao obter IDs do RD Station:", error);
+      alert("Erro ao obter IDs. Verifique o console para mais detalhes.");
+    }
+  };
+
   return (
     <div className="App">
       {showMultiStepForm ? (
@@ -106,6 +138,8 @@ function App() {
             <MultiStepForm
               initialData={formState}
               onSubmit={handleFinalSubmit}
+              isSubmitting={isSubmitting}
+              error={submitError}
             />
           </div>
         </section>
@@ -153,9 +187,7 @@ function App() {
                   <a href="#contato" onClick={() => setMenuOpen(false)}>
                     Contato
                   </a>
-                  <a href="/blog" onClick={() => setMenuOpen(false)}>
-                    Blog
-                  </a>
+                  {/* Removed Blog link */}
                 </nav>
               </div>
             </div>
@@ -260,7 +292,6 @@ function App() {
                             <option value="RO">Rondônia</option>
                             <option value="RR">Roraima</option>
                             <option value="SC">Santa Catarina</option>
-
                             <option value="SE">Sergipe</option>
                             <option value="TO">Tocantins</option>
                           </select>
@@ -309,8 +340,17 @@ function App() {
                             </a>
                           </label>
                         </div>
-                        <button type="submit" className="submit-button">
-                          Verificar Elegibilidade
+                        {submitError && (
+                          <div className="error-message">{submitError}</div>
+                        )}
+                        <button
+                          type="submit"
+                          className="submit-button"
+                          disabled={isSubmitting}
+                        >
+                          {isSubmitting
+                            ? "Enviando..."
+                            : "Verificar Elegibilidade"}
                         </button>
                       </form>
                     </div>
@@ -332,12 +372,14 @@ function App() {
             </div>
           </section>
 
-          {/* Seção Como Funciona */}
+          {/* Seção Como Funciona - Restaurada para o layout original */}
           <section id="como-funciona" className="steps-section">
             <div className="container">
-              <h2>Nosso processo simples de 4 etapas</h2>
+              <h2 className="steps-title">
+                Nosso processo simples de 4 etapas
+              </h2>
               <div className="steps-container">
-                <div className="step">
+                <div className="step-card">
                   <div className="step-number">1</div>
                   <h3>Verifique se você se qualifica</h3>
                   <p>
@@ -345,7 +387,8 @@ function App() {
                     nosso processo de divórcio simplificado.
                   </p>
                 </div>
-                <div className="step">
+
+                <div className="step-card">
                   <div className="step-number">2</div>
                   <h3>Complete o questionário</h3>
                   <p>
@@ -353,7 +396,8 @@ function App() {
                     documentação do divórcio.
                   </p>
                 </div>
-                <div className="step">
+
+                <div className="step-card">
                   <div className="step-number">3</div>
                   <h3>Revise seus formulários</h3>
                   <p>
@@ -361,7 +405,8 @@ function App() {
                     especializados receberá seus dados e entrará em contato.
                   </p>
                 </div>
-                <div className="step">
+
+                <div className="step-card">
                   <div className="step-number">4</div>
                   <h3>Solicite o divórcio</h3>
                   <p>
@@ -681,6 +726,13 @@ function App() {
           {/* Seção Credenciais */}
           <section className="credentials-section">
             <div className="container">
+              {/* Texto atualizado conforme solicitado */}
+              <p className="credentials-text">
+                O Divórcio Express atua com base na legislação brasileira, em
+                conformidade com as diretrizes da OAB e do IBDFAM, assegurando
+                um processo ágil, seguro e dentro dos princípios éticos da
+                advocacia.
+              </p>
               <div className="credentials-content">
                 <div className="credentials-image">
                   <img
@@ -740,9 +792,7 @@ function App() {
                       <li>
                         <a href="#contato">Contato</a>
                       </li>
-                      <li>
-                        <a href="/blog">Blog</a>
-                      </li>
+                      {/* Removed Blog link */}
                     </ul>
                   </div>
                 </div>
@@ -761,30 +811,36 @@ function App() {
                   </p>
                 </div>
                 <div className="social-links">
-                  <a href="#" aria-label="Facebook">
+                  <a
+                    href="https://www.facebook.com/divorcioexpresso" // Link atualizado
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Facebook"
+                  >
                     Facebook
                   </a>
-                  <a href="#" aria-label="Instagram">
+                  <a
+                    href="https://www.instagram.com/divorcioexpressbr?igsh=MXI3MHVkZmF2OXZnaA==" // Link atualizado
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Instagram"
+                  >
                     Instagram
                   </a>
-                  <a href="#" aria-label="Twitter">
-                    Twitter
-                  </a>
+                  {/* Link do Twitter removido */}
                 </div>
               </div>
             </div>
           </footer>
 
-          {/* WhatsApp Button */}
+          {/* Botão Flutuante do WhatsApp - Botão simples e circular */}
           <a
             href="https://wa.me/5511916801800"
-            className="whatsapp-button"
+            className="whatsapp-button-simple"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Converse conosco pelo WhatsApp"
-          >
-            <i className="fab fa-whatsapp"></i>
-          </a>
+            aria-label="Fale conosco pelo WhatsApp"
+          ></a>
 
           {/* Modal de Termos de Serviço */}
           {showTermsPopup && (

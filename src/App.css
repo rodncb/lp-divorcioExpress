@@ -1,7 +1,7 @@
 .App {
   font-family: "Roboto", sans-serif;
   color: #45373e;
-  background-color: #d9d0ac;
+  background-color: #e5dcc3; /* Ajustado conforme site original */
   min-height: 100vh;
 }
 
@@ -214,6 +214,8 @@
   border-radius: 8px;
   padding: 25px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .hero-form h3 {
@@ -319,13 +321,12 @@
 .form-group input,
 .form-group select,
 .form-group textarea {
-  width: 100%;
-  padding: 12px;
+  background-color: #f7f7f7;
   border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
-  background-color: white;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  border-radius: 4px;
+  padding: 12px;
+  width: 100%;
+  font-size: 16px;
 }
 
 .form-group input:focus,
@@ -439,61 +440,89 @@
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* Seção Como Funciona */
+/* Seção de 4 etapas - CSS EXATAMENTE igual ao site original */
 .steps-section {
   padding: 60px 0;
   background-color: #f9f9f9;
+  text-align: center;
 }
 
-.steps-section h2 {
+.steps-title {
   text-align: center;
-  color: #8f2e1d;
-  margin-bottom: 40px;
-  font-family: "Raleway", sans-serif;
+  color: #a13529;
+  margin-bottom: 50px;
+  font-size: 36px;
   font-weight: 700;
-  font-size: 2.2rem;
+  background-color: #e5e5f7; /* Fundo azul claro específico do site original */
+  padding: 10px 20px;
+  display: inline-block;
+  border-radius: 8px;
 }
 
 .steps-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 30px;
+  display: flex;
+  justify-content: space-between;
+  max-width: 1100px;
+  margin: 0 auto;
+  flex-wrap: wrap;
 }
 
-.step {
+.step-card {
   background: white;
-  padding: 30px;
+  padding: 25px;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
+  width: 22%;
+  min-width: 220px;
+  margin-bottom: 20px;
 }
 
 .step-number {
   width: 50px;
   height: 50px;
-  background-color: #8f2e1d;
-  color: white;
+  background-color: #e0e0e0;
+  color: #333;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 22px;
   font-weight: bold;
   margin: 0 auto 20px;
 }
 
-.step h3 {
-  color: #45373e;
+.step-card h3 {
+  color: #333;
   margin-bottom: 15px;
-  font-family: "Raleway", sans-serif;
   font-weight: 600;
+  font-size: 18px;
+  min-height: 50px;
 }
 
-.step p {
+.step-card p {
   color: #666;
-  line-height: 1.6;
-  font-family: "Noto Sans", sans-serif;
-  text-align: justify;
+  line-height: 1.5;
+  font-size: 14px;
+  margin: 0;
+}
+
+@media (max-width: 992px) {
+  .steps-container {
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .step-card {
+    width: 45%;
+  }
+}
+
+@media (max-width: 576px) {
+  .step-card {
+    width: 100%;
+    max-width: 300px;
+  }
 }
 
 /* Testimonials Section */
@@ -1043,39 +1072,39 @@
   opacity: 1;
 }
 
-/* WhatsApp Button */
-.whatsapp-button {
+/* Botão do WhatsApp simplificado e totalmente circular */
+.whatsapp-button-simple {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #25d366;
-  color: white;
   width: 60px;
   height: 60px;
+  background-color: #25d366;
   border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   z-index: 1000;
   transition: all 0.3s ease;
-  text-decoration: none;
-  font-size: 30px;
+  display: block;
 }
 
-.whatsapp-button i {
-  font-size: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.whatsapp-button:hover {
+.whatsapp-button-simple:hover {
   transform: scale(1.1);
   background-color: #20ba57;
 }
 
-/* Media Queries para Responsividade */
+.whatsapp-button-simple::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M19.05 4.91C17.18 3.03 14.69 2 12.04 2C6.5 2 2 6.5 2 12.05C2 14.03 2.55 15.96 3.64 17.56L2 22L6.56 20.36C8.13 21.41 10.02 21.95 11.94 21.95H11.97C17.5 21.95 22 17.45 22 11.91C22 9.27 20.97 6.79 19.05 4.91ZM12.04 20.15H12.01C10.28 20.15 8.58 19.64 7.14 18.66L6.79 18.46L4.1 19.44L5.09 16.81L4.86 16.45C3.8 14.97 3.24 13.18 3.24 11.34C3.24 7.49 7.18 4.36 12.04 4.36C14.22 4.36 16.27 5.21 17.87 6.82C19.47 8.43 20.31 10.48 20.31 12.67C20.31 16.52 16.38 20.15 12.04 20.15ZM16.56 13.99C16.31 13.87 15.09 13.28 14.87 13.19C14.65 13.11 14.48 13.07 14.31 13.31C14.14 13.56 13.67 14.11 13.53 14.27C13.39 14.44 13.25 14.46 13 14.34C12.17 13.97 11.33 13.47 10.63 12.82C9.93 12.18 9.43 11.34 9.06 10.51C8.94 10.26 9.06 10.13 9.18 10.01C9.28 9.9 9.42 9.73 9.54 9.59C9.66 9.45 9.7 9.33 9.78 9.16C9.86 8.99 9.83 8.83 9.78 8.71C9.73 8.59 9.23 7.37 9.02 6.86C8.81 6.37 8.6 6.44 8.45 6.43C8.31 6.42 8.14 6.42 7.97 6.42C7.8 6.42 7.54 6.47 7.32 6.71C7.1 6.96 6.47 7.55 6.47 8.77C6.47 9.99 7.38 11.19 7.5 11.36C7.62 11.53 9.22 14.01 11.69 15.08C12.79 15.56 13.63 15.84 14.3 16.04C15.29 16.37 16.19 16.33 16.91 16.28C17.69 16.22 18.68 15.7 18.89 15.1C19.1 14.5 19.1 13.99 19.05 13.9C19 13.81 18.83 13.76 18.58 13.64C18.38 13.55 17.36 13.05 16.56 13.99Z'/%3E%3C/svg%3E");
+  background-size: 35px 35px;
+  background-repeat: no-repeat;
+  width: 35px;
+  height: 35px;
+}
+
 @media (max-width: 992px) {
   .hero-content {
     flex-direction: column;
@@ -1187,7 +1216,6 @@
   .hero-image {
     position: relative;
     top: 0;
-    margin-top: 30px;
     order: -1;
   }
 
@@ -1475,7 +1503,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 40px;
+  gap: 120px; /* Aumentado gap de 80px para 120px */
+  flex-wrap: wrap;
 }
 
 .credentials-image {
@@ -1491,6 +1520,16 @@
 
 .credentials-image:hover {
   transform: translateY(-5px);
+}
+
+.credentials-text {
+  max-width: 700px; /* Reduzido de 750px para 700px para forçar duas linhas */
+  margin: 0 auto 30px;
+  color: #555;
+  line-height: 1.6;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 1.1rem;
+  text-align: center; /* Garante a centralização do texto */
 }
 
 .oab-image,
@@ -1527,4 +1566,155 @@
   .hero-highlight {
     font-size: 1.5rem;
   }
+}
+
+/* Ajustes para a barra de progresso do MultiStepForm conforme site original */
+.multi-step-section {
+  background-color: #e5dcc3;
+  padding-top: 100px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.multi-step-section .container {
+  max-width: 1000px;
+  width: 100%;
+}
+
+/* Estilos do formulário específico para a página inicial */
+.hero-form .form-container {
+  background-color: white;
+  color: #45373e;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Ajustes para os campos do formulário */
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 12px;
+  width: 100%;
+  font-size: 16px;
+}
+
+/* Botões conforme o site original */
+.submit-button,
+.next-btn {
+  background-color: #a13529;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 12px 24px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.submit-button:hover,
+.next-btn:hover {
+  background-color: #872d23;
+}
+
+.prev-btn {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 12px 24px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.prev-btn:hover {
+  background-color: #e0e0e0;
+}
+
+/* Estilos para a página de sucesso */
+.success-message {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.success-message h2 {
+  color: #a13529;
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.success-message h3 {
+  color: #3498db; /* Cor azul */
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.success-message p {
+  color: #555;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.satisfaction-guarantee {
+  background-color: #a13529;
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  display: inline-block;
+  margin: 20px 0;
+}
+
+.satisfaction-guarantee h2 {
+  color: white;
+  margin: 0;
+  font-size: 40px;
+}
+
+.satisfaction-guarantee p {
+  color: white;
+  margin: 0;
+}
+
+/* Whatsapp button */
+.whatsapp-button {
+  display: inline-block;
+  background-color: #25d366;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 20px;
+  transition: all 0.3s;
+}
+
+.whatsapp-button:hover {
+  background-color: #1da851;
+}
+
+/* Cores e estilos específicos para os passos */
+.step-1-active {
+  background-color: #a13529;
+}
+.step-2-active {
+  background-color: #a13529;
+}
+.step-3-active {
+  background-color: #a13529;
+}
+.step-4-active {
+  background-color: #a13529;
 }
