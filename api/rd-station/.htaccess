@@ -1,0 +1,51 @@
+# Ativar o engine de reescrita
+RewriteEngine On
+
+# Permitir métodos HTTP necessários (GET, POST, OPTIONS)
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+    
+    # Responder a requisições preflight OPTIONS imediatamente
+    RewriteCond %{REQUEST_METHOD} OPTIONS
+    RewriteRule ^(.*)$ $1 [R=200,L]
+</IfModule>
+
+# Certificar de que o PHP está habilitado
+<IfModule mod_php7.c>
+    php_flag display_errors Off
+    php_flag log_errors On
+    php_value error_log "php_errors.log"
+</IfModule>
+
+# Configurações específicas para PHP na Hostgator
+<IfModule mod_suphp.c>
+    suPHP_ConfigPath /home/username/php.ini
+</IfModule>
+
+# Permitir requisições de outros domínios (CORS)
+SetEnvIf Origin "http(s)?://(www\.)?(divorcioexpress-ibdfam\.com\.br|divorcioexpress\.com\.br)(:\d+)?$" CORS=$0
+Header set Access-Control-Allow-Origin "%{CORS}e" env=CORS
+Header set Access-Control-Allow-Credentials "true" env=CORS
+
+# Proteção básica contra injeção e ataques comuns
+Options -Indexes
+ServerSignature Off
+
+# Impedir acesso a arquivos de sistema e logs
+<Files ~ "^\.ht">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "*.log">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Definir timeout mais longo para requisições a serviços externos
+<IfModule mod_php7.c>
+    php_value max_execution_time 60
+    php_value default_socket_timeout 60
+</IfModule>

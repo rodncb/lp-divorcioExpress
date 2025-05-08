@@ -1,0 +1,18 @@
+[build]
+  # Diretório que será publicado
+  publish = "dist"
+  # Comando de build que o Netlify vai executar
+  command = "npm run build"
+
+[functions]
+  # Diretório onde estão as funções serverless
+  directory = "api"
+  # Incluir arquivos de node_modules nas funções (opcional, dependendo das dependências)
+  node_bundler = "esbuild"
+
+# Configuração para redirecionamento de endpoints de API
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+  force = true

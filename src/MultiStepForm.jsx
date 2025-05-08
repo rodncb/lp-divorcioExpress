@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import "./MultiStepForm.css";
-import { supabase } from "./supabaseClient";
 import { processDataToRdStation } from "./rdStationService";
 
 const MultiStepForm = ({ initialData, onSubmit, isSubmitting, error }) => {
@@ -136,51 +135,33 @@ const MultiStepForm = ({ initialData, onSubmit, isSubmitting, error }) => {
           generatedId: caseId,
         };
 
-        // Preparar dados para envio conforme a estrutura correta da tabela no Supabase
-        const submissionData = {
-          // Campos que aparecem na tabela conforme a imagem compartilhada
-          id: caseId, // Usando o ID gerado como ID do registro
-          marriagedate: formData.marriageDate || null,
-          marriagelocation: formData.marriageLocation || "",
-          city: formData.state || "", // Usando o estado como cidade  
-        };
+        // Remover a parte de Supabase e enviar diretamente para o RD Station
+        console.log("Enviando dados para processamento...");
 
-        console.log("Enviando dados para o Supabase com os campos corretos:", submissionData);
-
-        // Salvar dados no Supabase
-        const { data, error } = await supabase
-          .from("full_submissions")
-          .insert([submissionData]);
-
-        if (error) {
-          console.error("Erro Supabase:", error);
-          throw error;
-        }
-
-        console.log("Dados completos salvos com sucesso no Supabase:", data);
-
-        // 2. Enviar dados para o RD Station CRM
+        // 1. Enviar dados para o RD Station CRM
         try {
           const rdResponse = await processDataToRdStation(
-            allFormData, // Enviamos todos os dados originais para o RD Station
+            allFormData,
             "completo"
           );
           console.log(
             "Dados completos enviados com sucesso para o RD Station CRM:",
             rdResponse
           );
+
+          // 2. Mostrar mensagem de sucesso e chamar callback onSubmit
+          setSubmitSuccess(true);
+          onSubmit(allFormData);
+
+          // Ir para a tela de confirmação
+          setCurrentStep(5);
+          window.scrollTo(0, 0);
         } catch (rdError) {
-          console.error("Erro ao enviar dados para RD Station CRM:", rdError);
-          // Não bloquear o fluxo principal se apenas a integração com RD CRM falhar
+          console.error("Erro ao enviar dados:", rdError);
+          setLocalSubmitError(
+            "Ocorreu um erro ao enviar o formulário. Por favor, tente novamente."
+          );
         }
-
-        // 3. Mostrar mensagem de sucesso e chamar callback onSubmit
-        setSubmitSuccess(true);
-        onSubmit(allFormData);
-
-        // Ir para a tela de confirmação
-        setCurrentStep(5);
-        window.scrollTo(0, 0);
       } catch (error) {
         console.error("Erro ao enviar formulário completo:", error);
         setLocalSubmitError(

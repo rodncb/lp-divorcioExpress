@@ -342,3 +342,152 @@
   max-width: 1000px;
   padding: 0 20px;
 }
+
+/* Adicionando Media Queries para Mobile */
+@media (max-width: 768px) {
+  .multi-step-form .progress-steps::before {
+    content: ""; /* Mostrar a linha novamente */
+    display: block;
+  }
+
+  .multi-step-form .progress-steps {
+    flex-direction: row; /* Manter os passos na horizontal */
+    align-items: center; /* Centralizar verticalmente */
+    justify-content: space-between; /* Distribuir os passos uniformemente */
+    width: 100%;
+  }
+
+  .multi-step-form .step {
+    width: 35px; /* Reduzir tamanho para caber melhor em telas pequenas */
+    height: 35px;
+    font-size: 16px;
+    margin-bottom: 0; /* Remover margem inferior */
+  }
+
+  .multi-step-form .progress-title {
+    display: flex; /* Manter como flex */
+    justify-content: space-between; /* Distribuir os títulos uniformemente */
+    height: 50px; /* Altura suficiente para textos com quebras */
+    margin-top: 5px;
+    position: relative;
+  }
+
+  .multi-step-form .step-title {
+    font-size: 10px; /* Reduzir mais o tamanho da fonte */
+    position: absolute; /* Manter posicionamento absoluto */
+    text-align: center; /* Centralizar texto */
+    width: 70px; /* Largura fixa para o título */
+    transform: translateX(-50%); /* Manter centralização pelo posicionamento */
+    white-space: normal; /* Permitir quebra de linha */
+  }
+
+  /* Manter posicionamento específico dos títulos, ajustando para melhor visualização */
+  .multi-step-form .step-title:nth-child(1) {
+    left: 5%;
+  }
+  .multi-step-form .step-title:nth-child(2) {
+    left: 35%;
+  }
+  .multi-step-form .step-title:nth-child(3) {
+    left: 65%;
+  }
+  .multi-step-form .step-title:nth-child(4) {
+    left: 95%;
+  }
+
+  /* Restante dos estilos para a tela de agradecimento */
+  .multi-step-form .form-step h2 {
+    font-size: 20px; /* Reduzir título do formulário */
+  }
+
+  .multi-step-form .success-message h2 {
+    font-size: 28px; /* Reduzir fonte do "Parabéns!" */
+  }
+
+  .multi-step-form .success-message h3 {
+    font-size: 18px; /* Reduzir fonte do "Você está qualificado..." */
+  }
+
+  .multi-step-form .success-message p {
+    font-size: 16px; /* Reduzir fonte do ID do caso e outras mensagens */
+  }
+
+  .multi-step-form .satisfaction-guarantee {
+    padding: 15px;
+    margin: 20px auto;
+  }
+
+  .multi-step-form .satisfaction-guarantee h2 {
+    font-size: 24px; /* Reduzir fonte do "100%" */
+  }
+
+  .multi-step-form .satisfaction-guarantee p {
+    font-size: 14px; /* Reduzir fonte do "Satisfação Garantida" */
+  }
+
+  .multi-step-form .whatsapp-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 30px;
+    width: 80%;
+    max-width: 300px;
+    margin: 20px auto 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Removendo o pseudo-elemento ::before que estava duplicando o ícone */
+  .multi-step-form .whatsapp-button::before {
+    display: none;
+  }
+
+  /* Estilizando o ícone do Font Awesome que já existe no JSX */
+  .multi-step-form .whatsapp-button i.fab.fa-whatsapp {
+    font-size: 24px;
+    margin-right: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .multi-step-form .step {
+    width: 30px; /* Reduzir ainda mais o tamanho para telas muito pequenas */
+    height: 30px;
+    font-size: 14px;
+  }
+
+  .multi-step-form .progress-title {
+    height: 60px; /* Aumentar altura para acomodar mais texto */
+  }
+
+  .multi-step-form .step-title {
+    font-size: 9px; /* Reduzir ainda mais a fonte */
+    width: 60px; /* Reduzir largura */
+  }
+
+  .multi-step-form .success-message h2 {
+    font-size: 24px;
+  }
+
+  .multi-step-form .success-message h3 {
+    font-size: 16px;
+  }
+
+  .multi-step-form .success-message p {
+    font-size: 14px;
+  }
+
+  .multi-step-form .satisfaction-guarantee h2 {
+    font-size: 20px;
+  }
+
+  .multi-step-form .satisfaction-guarantee p {
+    font-size: 12px;
+  }
+
+  .multi-step-form .whatsapp-button {
+    font-size: 15px;
+    width: 90%;
+  }
+}

@@ -1,7 +1,6 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 import MultiStepForm from "./MultiStepForm";
-import { supabase } from "./supabaseClient";
 import {
   processDataToRdStation,
   getAndShowRdStationIds,
@@ -40,24 +39,7 @@ function App() {
     setSubmitError(null);
 
     try {
-      // Salvar no Supabase
-      const { data, error } = await supabase.from("leads").insert([
-        {
-          name: formState.name,
-          email: formState.email,
-          phone: formState.phone,
-          state: formState.state,
-          has_agreement: formState.hasAgreement,
-          created_at: new Date().toISOString(),
-          form_type: "initial",
-        },
-      ]);
-
-      if (error) throw error;
-
-      console.log("Lead salvo com sucesso no Supabase:", data);
-
-      // Enviar para RD Station CRM
+      // Enviar para RD Station CRM (que agora usa PHP)
       try {
         const rdResponse = await processDataToRdStation(formState, "inicial");
         console.log(
