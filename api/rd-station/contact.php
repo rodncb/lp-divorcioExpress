@@ -40,8 +40,7 @@ $rd_data = $request_data['data'];
 // Preparar a requisição para o RD Station (Contato)
 $rd_contact_url = 'https://crm.rdstation.com/api/v1/contacts?token=' . $rd_token; // Token na URL conforme solicitado
 
-// SIMPLIFICADO: Criar objeto de contato APENAS com nome, email e telefone
-// Sem campos personalizados para evitar erros
+// Estrutura básica do contato
 $contact_data = [
     "contact" => [
         "name" => isset($rd_data['name']) ? $rd_data['name'] : '',
@@ -57,9 +56,58 @@ if (isset($rd_data['phones']) && !empty($rd_data['phones'])) {
     $contact_data['contact']['phones'][] = ["phone" => $rd_data['phones'][0]];
 }
 
-// Log dos dados sendo enviados (para debug)
+// Adicionar campos personalizados com os IDs corretos do RD Station
+$contact_custom_fields = [];
+
+// Mapeamento dos campos do frontend para os IDs do RD Station
+$custom_fields_mapping = [
+    // Campo Estado/UF - NOVO ID
+    "estado_uf" => "681ce76ac428a60014d1a84a",
+    
+    // Tipo de formulário
+    "tipo_formulario" => "681ce35510c80700144de32a",
+    
+    // Campo "Você e seu cônjuge concordam com a divisão de bens..." - NOVO ID 
+    "possui_acordo" => "681ce8171ff95d0026098d1f"
+];
+
+// Adicionar os campos personalizados que existem no request
+if (isset($rd_data['custom_fields']) && !empty($rd_data['custom_fields'])) {
+    foreach ($rd_data['custom_fields'] as $field_name => $field_value) {
+        if (isset($custom_fields_mapping[$field_name])) {
+            // Formatar os valores corretamente para campos do tipo lista
+            $value = $field_value;
+            
+            // Estado/UF - converter para maiúsculas
+            if ($field_name === "estado_uf") {
+                $value = strtoupper($field_value); // Ex: "GO" para "GO"
+            }
+            
+            // Converter valores sim/não para SIM/NÃO
+            if (in_array($field_name, ["possui_acordo"])) {
+                if (strtolower($field_value) === "sim") {
+                    $value = "SIM";
+                } elseif (strtolower($field_value) === "nao") {
+                    $value = "NÃO";
+                }
+            }
+            
+            $contact_custom_fields[] = [
+                "custom_field_id" => $custom_fields_mapping[$field_name],
+                "value" => $value
+            ];
+        }
+    }
+}
+
+// Adicionar os campos personalizados ao contato se houver algum
+if (!empty($contact_custom_fields)) {
+    $contact_data['contact']['contact_custom_fields'] = $contact_custom_fields;
+}
+
+// Log dos dados sendo enviados
 file_put_contents($log_file, date('Y-m-d H:i:s') . " - Token: " . $rd_token . " - Dados recebidos do frontend: " . json_encode($rd_data) . PHP_EOL, FILE_APPEND);
-file_put_contents($log_file, date('Y-m-d H:i:s') . " - Dados SIMPLIFICADOS para API: " . json_encode($contact_data) . PHP_EOL, FILE_APPEND);
+file_put_contents($log_file, date('Y-m-d H:i:s') . " - Dados formatados para API: " . json_encode($contact_data) . PHP_EOL, FILE_APPEND);
 
 // Inicializar cURL para contato
 $curl = curl_init();
